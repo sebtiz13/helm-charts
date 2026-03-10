@@ -1,0 +1,25 @@
+name: Check files
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  helm-lint:
+    name: Helm Linting
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Mise action
+        uses: jdx/mise-action@v3
+
+      - name: Run chart-testing
+        run: ct lint --all

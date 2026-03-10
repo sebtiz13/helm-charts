@@ -1,0 +1,77 @@
+name: Release Charts
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.12.0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Package charts
+        run: |
+          mkdir -p .cr-release-packages
+          for chart in charts/*; do
+            if [ -d "$chart" ]; then
+              helm package "$chart" -d .cr-release-packages
+            fi
+          done
+
+      - name: Push charts to OCI registry
+        run: |
+          for chart_package in .cr-release-packages/*.tgz; do
+            if [ -f "$chart_package" ]; then
+              chart_name=$(basename "$chart_package" .tgz)
+              helm push "$chart_package" oci://ghcr.io/${{ github.repository_owner }}/$chart_name
+            fi
+          done
+          echo "Charts pushed to OCI registry successfully"
+
+      - name: Generate index
+        run: |
+          helm repo index . --url https://${GITHUB_REPOSITORY_OWNER}.github.io/helm-charts/ --merge index.yaml
+          echo "Index generated successfully"
+
+      - name: Publish to GitHub Pages
+        run: |
+          git checkout --orphan gh-pages
+          git reset --hard
+          git commit --allow-empty -m "Initial gh-pages commit"
+          git push origin gh-pages --force
+
+          git checkout gh-pages
+
+          cp index.yaml .
+          cp .cr-release-packages/*.tgz .
+          git add index.yaml *.tgz
+          git commit -m "Update Helm repository for ${GITHUB_REF#refs/tags/}"
+          git push origin gh-pages
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: .cr-release-packages/*.tgz
+          generate_release_notes: true

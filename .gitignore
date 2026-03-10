@@ -1,0 +1,19 @@
+# Dependency directories
+node_modules/
+.jdeps/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Helm specific
+hg/
+git/
+bzr/
+.svn/
+# Sub chart archives
+charts/*/charts/*.tgz
+
+TODO.md
