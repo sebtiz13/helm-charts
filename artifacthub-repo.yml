@@ -1,0 +1,6 @@
+---
+owners:
+  - name: Sebtiz13
+    email: contact@sebtiz13.fr
+ignore:
+  - name: example-chart
