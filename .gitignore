@@ -1,0 +1,27 @@
+.DS_Store
+
+# Common VCS dirs
+hg/
+git/
+bzr/
+.svn/
+
+# Common backup files
+*.swp
+*.bak
+*.backup
+*~
+
+# IDE specific files
+.project
+.idea/
+*.tmproj
+.vscode/
+
+# Helm specific
+## Sub chart archives
+charts/*/charts/*.tgz
+values.local.yaml
+
+# Custom
+TODO.md

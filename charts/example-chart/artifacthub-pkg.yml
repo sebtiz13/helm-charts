@@ -1,0 +1,36 @@
+version: 1.0.0
+name: example-chart
+displayName: Example Chart
+createdAt: "2023-01-01T00:00:00Z"
+description: A sample Helm chart demonstrating best practices
+logoPath: https://github.com/username/helm-charts/raw/main/charts/example-chart/logo.png
+license: MIT
+homeURL: https://github.com/username/helm-charts
+links:
+  - name: source
+    url: https://github.com/username/helm-charts
+  - name: support
+    url: https://github.com/username/helm-charts/issues
+keywords:
+  - example
+  - demo
+  - sample
+readme: https://github.com/username/helm-charts/blob/main/charts/example-chart/README.md
+install: |
+  helm repo add my-repo https://username.github.io/helm-charts/
+  helm repo update
+  helm install my-release my-repo/example-chart
+changes:
+  - kind: added
+    description: Initial release
+    links:
+      - name: GitHub
+        url: https://github.com/username/helm-charts
+containersImages:
+  - name: example-image
+    image: example/image:latest
+provider:
+  name: username
+screenshots:
+  - title: Example Screenshot
+    url: https://github.com/username/helm-charts/raw/main/charts/example-chart/screenshot.png
