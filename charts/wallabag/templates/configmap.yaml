@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "wallabag.fullname" . }}-configmap
+  labels:
+    {{- include "wallabag.labels" . | nindent 4 }}
+data:
+  {{- if .Values.mariadb.enabled }}
+  {{- include "wallabag.db-config" .Values.mariadb | nindent 2 }}
+  {{- else if .Values.externalDatabase.host }}
+  {{- include "wallabag.db-config" .Values.externalDatabase | nindent 2 }}
+  {{- end }}
+  {{- if and .Values.wallabag .Values.wallabag.domainName }}
+  SYMFONY__ENV__DOMAIN_NAME: {{ .Values.wallabag.domainName | quote }}
+  {{- else if .Values.ingress.enabled }}
+  SYMFONY__ENV__DOMAIN_NAME: {{ printf (ternary "https://%s" "http://%s" .Values.ingress.tls.enabled) .Values.ingress.host | quote }}
+  {{- end }}
+
+  # Wallabag configuration values
+  {{- with .Values.wallabag }}
+  {{- if .memoryLimit }}
+  PHP_MEMORY_LIMIT: {{ .memoryLimit | quote }}
+  {{- end }}
+  {{- if .serverName }}
+  SYMFONY__ENV__SERVER_NAME: {{ .serverName | quote }}
+  {{- end }}
+  {{- if .secret }}
+  SYMFONY__ENV__SECRET: {{ .secret | quote }}
+  {{- end }}
+  {{- if .locale }}
+  SYMFONY__ENV__LOCALE: {{ .locale | quote }}
+  {{- end }}
+  {{- if .fromEmail }}
+  SYMFONY__ENV__FROM_EMAIL: {{ .fromEmail | quote }}
+  {{- end }}
+  {{- if .twofactorSender }}
+  SYMFONY__ENV__TWOFACTOR_SENDER: {{ .twofactorSender | quote }}
+  {{- end }}
+  {{- if .mailerDsn }}
+  SYMFONY__ENV__MAILER_DSN: {{ .mailerDsn | quote }}
+  {{- end }}
+  {{- if .sentryDsn }}
+  SYMFONY__ENV__SENTRY_DSN: {{ .sentryDsn | quote }}
+  {{- end }}
+
+  # FOSUserBundle configuration values
+  {{- with .fos }}
+  {{- if hasKey . "userRegistration" }}
+  SYMFONY__ENV__FOSUSER_REGISTRATION: {{ .userRegistration | quote }}
+  {{- end }}
+  {{- if hasKey . "userConfirmation" }}
+  SYMFONY__ENV__FOSUSER_CONFIRMATION: {{ .userConfirmation | quote }}
+  {{- end }}
+  {{- end }}
+
+  # Additional wallabag configuration
+  {{- with .extraConfig }}
+  {{- range $key, $value := . }}
+  SYMFONY__ENV__{{ $key | upper | replace "-" "_" }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+  {{- end }}

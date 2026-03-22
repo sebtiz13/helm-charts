@@ -29,7 +29,7 @@ helm install my-release oci://ghcr.io/sebtiz13/my-chart --version 0.1.0
 
 ## Charts
 
-- **example-chart**: A sample Helm chart demonstrating best practices
+- **[wallabag](charts/wallabag/)**: A Helm chart for Wallabag, a self-hosted application for saving and annotating web pages.
 
 ## License
 

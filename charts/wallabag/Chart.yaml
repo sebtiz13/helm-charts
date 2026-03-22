@@ -1,0 +1,30 @@
+apiVersion: v2
+name: wallabag
+description: A Helm chart for wallabag deployment
+version: 0.1.0
+appVersion: "2.6.14"
+type: application
+icon: https://www.gravatar.com/avatar/5ec91100620f8632bdc665e5facb4d0c?s=220&r=g&d=404
+dependencies:
+  - name: mariadb
+    version: 25.0.x
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    condition: mariadb.enabled
+  - name: redis
+    version: 25.3.x
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    condition: redis.enabled
+home: https://www.wallabag.org/
+sources:
+  - https://github.com/sebtiz13/helm-charts/tree/main/charts/wallabag
+  - https://github.com/wallabag/wallabag
+  - https://github.com/wallabag/docker
+keywords:
+  - wallabag
+  - self-hosted
+  - productivity
+  - notes
+  - bookmarks
+maintainers:
+  - name: sebtiz13
+    url: https://github.com/sebtiz13/helm-charts

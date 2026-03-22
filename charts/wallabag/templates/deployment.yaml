@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wallabag.fullname" . }}
+  labels:
+    {{- include "wallabag.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "wallabag.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "wallabag.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api/info
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /api/info
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "wallabag.fullname" . }}-configmap
+            {{- if .Values.externalDatabase.existingSecret }}
+            - secretRef:
+                name: {{ .Values.externalDatabase.existingSecret }}
+            {{- else }}
+            - secretRef:
+                name: {{ include "wallabag.fullname" . }}-db-credentials
+            {{- end }}
+            {{- if .Values.externalRedis.existingSecret }}
+            - secretRef:
+                name: {{ .Values.externalRedis.existingSecret }}
+            {{- else if or .Values.redis.enabled .Values.externalRedis.host }}
+            - secretRef:
+                name: {{ include "wallabag.fullname" . }}-redis-credentials
+            {{- end }}
+            {{- if .Values.externalDatabase.existingAdminSecret }}
+            - secretRef:
+                name: {{ .Values.externalDatabase.existingAdminSecret }}
+                optional: true
+            {{- else if or (and .Values.mariadb.enabled .Values.mariadb.auth.rootPassword) .Values.externalDatabase.rootPassword }}
+            - secretRef:
+                name: {{ include "wallabag.fullname" . }}-db-admin
+                optional: true
+            {{- end }}
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/www/wallabag/data
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "wallabag.fullname" . }}-pvc
+      {{- end -}}
