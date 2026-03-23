@@ -65,16 +65,20 @@ spec:
             - secretRef:
                 name: {{ .Values.externalDatabase.existingAdminSecret }}
                 optional: true
-            {{- else if or (and .Values.mariadb.enabled .Values.mariadb.auth.rootPassword) .Values.externalDatabase.rootPassword }}
+            {{- else if include "wallabag.use-db-admin" . }}
             - secretRef:
                 name: {{ include "wallabag.fullname" . }}-db-admin
                 optional: true
             {{- end }}
-          {{- if .Values.persistence.enabled }}
           volumeMounts:
+            - name: entrypoint-script
+              mountPath: /entrypoint.sh
+              subPath: entrypoint.sh
+              readOnly: true
+            {{- if .Values.persistence.enabled }}
             - name: data
               mountPath: /var/www/wallabag/data
-          {{- end }}
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -87,9 +91,13 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.persistence.enabled }}
       volumes:
+        - name: entrypoint-script
+          configMap:
+            name: {{ include "wallabag.fullname" . }}-entrypoint
+            defaultMode: 0755
+        {{- if .Values.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "wallabag.fullname" . }}-pvc
-      {{- end -}}
+        {{- end }}

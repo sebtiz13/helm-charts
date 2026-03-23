@@ -1,7 +1,7 @@
 apiVersion: v2
 name: wallabag
 description: A Helm chart for wallabag deployment
-version: 0.1.0
+version: 0.2.0
 appVersion: "2.6.14"
 type: application
 icon: https://www.gravatar.com/avatar/5ec91100620f8632bdc665e5facb4d0c?s=220&r=g&d=404
@@ -14,6 +14,10 @@ dependencies:
     version: 25.3.x
     repository: "oci://registry-1.docker.io/bitnamicharts"
     condition: redis.enabled
+  - name: postgresql
+    version: 18.5.11
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    condition: postgresql.enabled
 home: https://www.wallabag.org/
 sources:
   - https://github.com/sebtiz13/helm-charts/tree/main/charts/wallabag

@@ -5,9 +5,12 @@ metadata:
   labels:
     {{- include "wallabag.labels" . | nindent 4 }}
 data:
-  {{- if .Values.mariadb.enabled }}
+  {{- $dbType := include "wallabag.database-type" . -}}
+  {{- if eq $dbType "postgresql" }}
+  {{- include "wallabag.db-config" (dict "driver" "pdo_pgsql" "port" 5432) | nindent 2 }}
+  {{- else if eq $dbType "mariadb" }}
   {{- include "wallabag.db-config" .Values.mariadb | nindent 2 }}
-  {{- else if .Values.externalDatabase.host }}
+  {{- else if eq $dbType "external" }}
   {{- include "wallabag.db-config" .Values.externalDatabase | nindent 2 }}
   {{- end }}
   {{- if and .Values.wallabag .Values.wallabag.domainName }}

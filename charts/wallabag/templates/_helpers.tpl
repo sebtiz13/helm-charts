@@ -68,7 +68,7 @@ Generate database configuration values
 SYMFONY__ENV__DATABASE_CHARSET: utf8mb4
 {{- else }}
 SYMFONY__ENV__DATABASE_CHARSET: utf8
-{{- end -}}
+{{- end }}
 SYMFONY__ENV__DATABASE_DRIVER: {{ $driver | quote }}
 SYMFONY__ENV__DATABASE_PORT: {{ $defaultPort | int | quote }}
 {{- end -}}
@@ -79,4 +79,31 @@ Generate redis credentials
 {{- define "wallabag.redis-credentials" -}}
 SYMFONY__ENV__REDIS_PORT: {{ .port | default 6379 | int | b64enc | quote }}
 SYMFONY__ENV__REDIS_PASSWORD: {{ .password | default "" | b64enc | quote }}
+{{- end -}}
+
+{{/*
+Return the database type to use (postgresql, mariadb or external)
+*/}}
+{{- define "wallabag.database-type" -}}
+{{- if .Values.postgresql.enabled -}}
+{{- "postgresql" -}}
+{{- else if .Values.mariadb.enabled -}}
+{{- "mariadb" -}}
+{{- else -}}
+{{- "external" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Check if wallabag database admin password should be used
+*/}}
+{{- define "wallabag.use-db-admin" -}}
+{{- $dbType := include "wallabag.database-type" . -}}
+{{- if and (eq $dbType "postgresql") .Values.postgresql.auth.postgresPassword -}}
+  true
+{{- else if and (eq $dbType "mariadb") .Values.mariadb.auth.rootPassword -}}
+  true
+{{- else if and (eq $dbType "external") .Values.externalDatabase.rootPassword -}}
+  true
+{{- end -}}
 {{- end -}}

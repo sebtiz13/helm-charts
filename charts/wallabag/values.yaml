@@ -81,6 +81,29 @@ mariadb:
       enabled: true
       size: 8Gi
 
+# PostgreSQL subchart configuration
+postgresql:
+  # Enable PostgreSQL subchart (set to false to use external database)
+  enabled: false
+  # PostgreSQL architecture (standalone or replication)
+  architecture: standalone
+  # PostgreSQL authentication
+  auth:
+    database: wallabag
+    username: wallabag
+    # required if existingSecret is not set, never commit this value
+    password: ""
+    # required if existingSecret is not set, never commit this value
+    postgresPassword: ""
+    # Name of an existing Secret containing `password` and `postgres-password` keys.
+    # If set, no Secret will be created by this chart for database credentials.
+    existingSecret: ""
+  # PostgreSQL primary configuration
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+
 # Redis subchart configuration
 redis:
   # Enable Redis subchart (set to false to use external Redis)
