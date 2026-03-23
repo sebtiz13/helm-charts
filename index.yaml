@@ -3,7 +3,7 @@ entries:
   wallabag:
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-03-23T23:19:42.157474098Z"
+    created: "2026-03-23T23:29:55.029656954Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -18,7 +18,7 @@ entries:
       repository: oci://registry-1.docker.io/bitnamicharts
       version: 18.5.11
     description: A Helm chart for wallabag deployment
-    digest: c5e11888fe0c0bbc1840f39edac0049cd90982cbb0baf8b56b86a589b3d5006b
+    digest: 98911d222e4a705b24fa04f08fe58a5af77677827dfc16545518ee1ea6a33b99
     home: https://www.wallabag.org/
     icon: https://www.gravatar.com/avatar/5ec91100620f8632bdc665e5facb4d0c?s=220&r=g&d=404
     keywords:
@@ -39,4 +39,4 @@ entries:
     urls:
     - https://sebtiz13.github.io/helm-charts/charts/wallabag-0.2.0.tgz
     version: 0.2.0
-generated: "2026-03-23T23:19:42.136379331Z"
+generated: "2026-03-23T23:29:55.013344923Z"
