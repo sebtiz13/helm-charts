@@ -1,77 +1,82 @@
 name: Release Charts
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Set up Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v5
         with:
-          version: v3.12.0
+          version: v4.1.3
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
       - name: Package charts
+        id: package-charts
+        env:
+          TARGET_DIR: "${{ runner.temp }}/charts_out"
         run: |
-          mkdir -p .cr-release-packages
           for chart in charts/*; do
             if [ -d "$chart" ]; then
-              helm package "$chart" -d .cr-release-packages
+              helm dependency build "$chart"
+              helm package "$chart" -d "${TARGET_DIR}"
             fi
           done
+          echo "result=$(ls ${TARGET_DIR}/*.tgz)" >> "$GITHUB_OUTPUT"
 
       - name: Push charts to OCI registry
+        env:
+          PACKAGES_FILES: ${{ steps.package-charts.outputs.result }}
         run: |
-          for chart_package in .cr-release-packages/*.tgz; do
+          echo "${PACKAGES_FILES[@]}"
+          for chart_package in "${PACKAGES_FILES[@]}"; do
             if [ -f "$chart_package" ]; then
-              chart_name=$(basename "$chart_package" .tgz)
-              helm push "$chart_package" oci://ghcr.io/${{ github.repository_owner }}/$chart_name
+              helm push "$chart_package" oci://ghcr.io/${{ github.repository }}
             fi
           done
           echo "Charts pushed to OCI registry successfully"
 
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          path: gh-pages
+          ref: gh-pages
+
+      - name: Copy package to gh-pages structure
+        id: copy-package
+        env:
+          PACKAGES_FILES: ${{ steps.package-charts.outputs.result }}
+        run: |
+          echo -n "${{ runner.temp }}/charts_out"
+          [[ ! -d 'gh-pages/charts' ]] && mkdir -p "gh-pages/charts"
+          cp ${PACKAGES_FILES[@]} "gh-pages/charts"
+
       - name: Generate index
+        working-directory: gh-pages
         run: |
           helm repo index . --url https://${GITHUB_REPOSITORY_OWNER}.github.io/helm-charts/ --merge index.yaml
           echo "Index generated successfully"
 
       - name: Publish to GitHub Pages
-        run: |
-          git checkout --orphan gh-pages
-          git reset --hard
-          git commit --allow-empty -m "Initial gh-pages commit"
-          git push origin gh-pages --force
-
-          git checkout gh-pages
-
-          cp index.yaml .
-          cp .cr-release-packages/*.tgz .
-          git add index.yaml *.tgz
-          git commit -m "Update Helm repository for ${GITHUB_REF#refs/tags/}"
-          git push origin gh-pages
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: stefanzweifel/git-auto-commit-action@v7.1.0
         with:
-          files: .cr-release-packages/*.tgz
-          generate_release_notes: true
+          commit_message: "release: update helm repository"
+          repository: gh-pages
+          branch: gh-pages
+          file_pattern: "index.yaml **/*.tgz"
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
