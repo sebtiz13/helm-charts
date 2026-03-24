@@ -1,3 +1,5 @@
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/sebtiz13-charts)](https://artifacthub.io/packages/search?repo=sebtiz13-charts)
+
 # Helm Charts Repository
 
 A collection of Helm charts for Kubernetes applications.
@@ -20,11 +22,10 @@ Add and use the OCI registry:
 
 ```bash
 # Add the OCI repository
-helm registry login ghcr.io
-helm pull oci://ghcr.io/sebtiz13/my-chart --version 0.1.0
+helm pull oci://ghcr.io/sebtiz13/helm-charts/chart --version 0.1.0
 
 # Or install directly
-helm install my-release oci://ghcr.io/sebtiz13/my-chart --version 0.1.0
+helm install my-release oci://ghcr.io/sebtiz13/helm-charts/chart --version 0.1.0
 ```
 
 ## Charts
