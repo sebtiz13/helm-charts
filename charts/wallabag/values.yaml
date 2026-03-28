@@ -14,6 +14,10 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+# Annotations for the deployment
+annotations: {}
+
+# Annotations for the pods
 podAnnotations: {}
 
 podSecurityContext: {}
@@ -156,6 +160,8 @@ persistence:
   #   app.kubernetes.io/component: storage
   #   backup: "true"
   labels: {}
+  # Custom annotations for the main PVC
+  annotations: {}
   # Additional volume mounts for the wallabag container
   # Useful for mounting custom volumes like cache, logs, or additional storage
   # Each extra volume can specify:
@@ -165,6 +171,7 @@ persistence:
   # - size: Storage size for the PVC (required)
   # - storageClass: Storage class for the PVC (optional)
   # - labels: Custom labels for the PVC (optional)
+  # - annotations: Custom annotations for the PVC (optional)
   # Example:
   # extraVolumes:
   #   - name: wallabag-cache

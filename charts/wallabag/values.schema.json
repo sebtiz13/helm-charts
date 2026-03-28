@@ -38,6 +38,9 @@
     "fullnameOverride": {
       "type": "string"
     },
+    "annotations": {
+      "type": "object"
+    },
     "podAnnotations": {
       "type": "object"
     },
@@ -312,6 +315,9 @@
         "labels": {
           "type": "object"
         },
+        "annotations": {
+          "type": "object"
+        },
         "extraVolumes": {
           "type": "array",
           "items": {
@@ -344,6 +350,9 @@
                 "type": "string"
               },
               "labels": {
+                "type": "object"
+              },
+              "annotations": {
                 "type": "object"
               }
             }

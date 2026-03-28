@@ -70,6 +70,7 @@ helm install wallabag oci://ghcr.io/sebtiz13/helm-charts/wallabag \
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| `annotations` | Annotations for the deployment | `{}` |
 | `mariadb.enabled` | Enable MariaDB subchart | `false` |
 | `mariadb.auth.password` | MariaDB password | `""` (required) |
 | `mariadb.auth.rootPassword` | MariaDB root password | `""` (required) |
@@ -163,6 +164,7 @@ helm install wallabag oci://ghcr.io/sebtiz13/helm-charts/wallabag \
 | `persistence.accessMode` | Access mode | `ReadWriteOnce` |
 | `persistence.size` | Volume size | `10Gi` |
 | `persistence.labels` | Custom labels for the main PVC | `{}` |
+| `persistence.annotations` | Custom annotations for the main PVC | `{}` |
 
 ### Extra Volume Mounts Configuration
 
@@ -175,6 +177,7 @@ helm install wallabag oci://ghcr.io/sebtiz13/helm-charts/wallabag \
 | `persistence.extraVolumes[].size` | Storage size for the PVC (required) | `""` |
 | `persistence.extraVolumes[].storageClass` | Storage class for the PVC (optional) | `""` |
 | `persistence.extraVolumes[].labels` | Custom labels for the PVC (optional) | `{}` |
+| `persistence.extraVolumes[].annotations` | Custom annotations for the PVC (optional) | `{}` |
 
 ```yaml
 persistence:
@@ -221,6 +224,8 @@ persistence:
 
 ### Probes Configuration
 
+#### Liveness Probe
+
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `livenessProbe.enabled` | Enable liveness probe | `true` |
@@ -232,24 +237,6 @@ persistence:
 | `livenessProbe.timeoutSeconds` | Timeout for liveness probe | `nil` |
 | `livenessProbe.successThreshold` | Success threshold for liveness probe | `nil` |
 | `livenessProbe.failureThreshold` | Failure threshold for liveness probe | `nil` |
-| `readinessProbe.enabled` | Enable readiness probe | `true` |
-| `readinessProbe.httpGet.path` | HTTP path for readiness probe | `"/api/info"` |
-| `readinessProbe.httpGet.port` | Port for readiness probe | `"http"` |
-| `readinessProbe.httpGet.scheme` | Scheme for readiness probe | `"HTTP"` |
-| `readinessProbe.initialDelaySeconds` | Initial delay for readiness probe | `nil` |
-| `readinessProbe.periodSeconds` | Period for readiness probe | `nil` |
-| `readinessProbe.timeoutSeconds` | Timeout for readiness probe | `nil` |
-| `readinessProbe.successThreshold` | Success threshold for readiness probe | `nil` |
-| `readinessProbe.failureThreshold` | Failure threshold for readiness probe | `nil` |
-| `startupProbe.enabled` | Enable startup probe | `false` |
-| `startupProbe.httpGet.path` | HTTP path for startup probe | `"/api/info"` |
-| `startupProbe.httpGet.port` | Port for startup probe | `"http"` |
-| `startupProbe.httpGet.scheme` | Scheme for startup probe | `"HTTP"` |
-| `startupProbe.initialDelaySeconds` | Initial delay for startup probe | `nil` |
-| `startupProbe.periodSeconds` | Period for startup probe | `nil` |
-| `startupProbe.timeoutSeconds` | Timeout for startup probe | `nil` |
-| `startupProbe.successThreshold` | Success threshold for startup probe | `nil` |
-| `startupProbe.failureThreshold` | Failure threshold for startup probe | `nil` |
 
 ```yaml
 livenessProbe:
@@ -263,7 +250,23 @@ livenessProbe:
   timeoutSeconds: 5
   successThreshold: 1
   failureThreshold: 3
+```
 
+#### Readiness Probe
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `readinessProbe.enabled` | Enable readiness probe | `true` |
+| `readinessProbe.httpGet.path` | HTTP path for readiness probe | `"/api/info"` |
+| `readinessProbe.httpGet.port` | Port for readiness probe | `"http"` |
+| `readinessProbe.httpGet.scheme` | Scheme for readiness probe | `"HTTP"` |
+| `readinessProbe.initialDelaySeconds` | Initial delay for readiness probe | `nil` |
+| `readinessProbe.periodSeconds` | Period for readiness probe | `nil` |
+| `readinessProbe.timeoutSeconds` | Timeout for readiness probe | `nil` |
+| `readinessProbe.successThreshold` | Success threshold for readiness probe | `nil` |
+| `readinessProbe.failureThreshold` | Failure threshold for readiness probe | `nil` |
+
+```yaml
 readinessProbe:
   enabled: true
   httpGet:
@@ -274,7 +277,23 @@ readinessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 3
+```
 
+#### Startup Probe
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `startupProbe.enabled` | Enable startup probe | `false` |
+| `startupProbe.httpGet.path` | HTTP path for startup probe | `"/api/info"` |
+| `startupProbe.httpGet.port` | Port for startup probe | `"http"` |
+| `startupProbe.httpGet.scheme` | Scheme for startup probe | `"HTTP"` |
+| `startupProbe.initialDelaySeconds` | Initial delay for startup probe | `nil` |
+| `startupProbe.periodSeconds` | Period for startup probe | `nil` |
+| `startupProbe.timeoutSeconds` | Timeout for startup probe | `nil` |
+| `startupProbe.successThreshold` | Success threshold for startup probe | `nil` |
+| `startupProbe.failureThreshold` | Failure threshold for startup probe | `nil` |
+
+```yaml
 startupProbe:
   enabled: true
   httpGet:
