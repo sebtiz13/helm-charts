@@ -7,9 +7,9 @@ metadata:
 data:
   {{- $dbType := include "wallabag.database-type" . -}}
   {{- if eq $dbType "postgresql" }}
-  {{- include "wallabag.db-config" (dict "driver" "pdo_pgsql" "port" 5432) | nindent 2 }}
+  {{- include "wallabag.db-config" (dict "driver" "pdo_pgsql") | nindent 2 }}
   {{- else if eq $dbType "mariadb" }}
-  {{- include "wallabag.db-config" .Values.mariadb | nindent 2 }}
+  {{- include "wallabag.db-config" (dict "driver" "pdo_mysql") | nindent 2 }}
   {{- else if eq $dbType "external" }}
   {{- include "wallabag.db-config" .Values.externalDatabase | nindent 2 }}
   {{- end }}
@@ -21,6 +21,9 @@ data:
 
   # Wallabag configuration values
   {{- with .Values.wallabag }}
+  {{- if .timezone }}
+  TZ: {{ .timezone | quote }}
+  {{- end }}
   {{- if .memoryLimit }}
   PHP_MEMORY_LIMIT: {{ .memoryLimit | quote }}
   {{- end }}
