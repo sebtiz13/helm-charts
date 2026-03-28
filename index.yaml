@@ -3,7 +3,45 @@ entries:
   wallabag:
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-03-28T01:24:31.799359278Z"
+    created: "2026-03-28T13:38:57.556794708Z"
+    dependencies:
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 25.0.x
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 25.3.x
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 18.5.11
+    description: A Helm chart for wallabag deployment
+    digest: 4b96591e3868d6c461b5c2f4d38c3231d4a935b14b72e776d32964822666f820
+    home: https://www.wallabag.org/
+    icon: https://www.gravatar.com/avatar/5ec91100620f8632bdc665e5facb4d0c?s=220&r=g&d=404
+    keywords:
+    - wallabag
+    - self-hosted
+    - productivity
+    - notes
+    - bookmarks
+    maintainers:
+    - name: sebtiz13
+      url: https://github.com/sebtiz13/helm-charts
+    name: wallabag
+    sources:
+    - https://github.com/sebtiz13/helm-charts/tree/main/charts/wallabag
+    - https://github.com/wallabag/wallabag
+    - https://github.com/wallabag/docker
+    type: application
+    urls:
+    - https://sebtiz13.github.io/helm-charts/charts/wallabag-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 2.6.14
+    created: "2026-03-28T13:38:57.540646451Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -41,7 +79,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-03-28T01:24:31.78319098Z"
+    created: "2026-03-28T13:38:57.524930332Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -79,7 +117,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-03-28T01:24:31.767859732Z"
+    created: "2026-03-28T13:38:57.509541866Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -115,4 +153,4 @@ entries:
     urls:
     - https://sebtiz13.github.io/helm-charts/charts/wallabag-0.2.0.tgz
     version: 0.2.0
-generated: "2026-03-28T01:24:31.751792689Z"
+generated: "2026-03-28T13:38:57.493509701Z"
