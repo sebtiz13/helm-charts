@@ -107,3 +107,31 @@ Check if wallabag database admin password should be used
   true
 {{- end -}}
 {{- end -}}
+
+{{/*
+Generate a probe configuration
+*/}}
+{{- define "wallabag.probe" -}}
+{{- $httpGet := .httpGet | default dict }}
+  httpGet:
+    path: {{ $httpGet.path | default "/api/info" }}
+    port: {{ $httpGet.port | default "http" }}
+    {{- if $httpGet.scheme }}
+    scheme: {{ $httpGet.scheme }}
+    {{- end }}
+{{- if .initialDelaySeconds }}
+  initialDelaySeconds: {{ .initialDelaySeconds }}
+{{- end }}
+{{- if .periodSeconds }}
+  periodSeconds: {{ .periodSeconds }}
+{{- end }}
+{{- if .timeoutSeconds }}
+  timeoutSeconds: {{ .timeoutSeconds }}
+{{- end }}
+{{- if .successThreshold }}
+  successThreshold: {{ .successThreshold }}
+{{- end }}
+{{- if .failureThreshold }}
+  failureThreshold: {{ .failureThreshold }}
+{{- end }}
+{{- end -}}

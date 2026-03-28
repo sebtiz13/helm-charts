@@ -5,13 +5,37 @@ metadata:
   name: {{ include "wallabag.fullname" . }}-pvc
   labels:
     {{- include "wallabag.labels" . | nindent 4 }}
+    {{- if .Values.persistence.labels }}
+    {{- toYaml .Values.persistence.labels | nindent 4 }}
+    {{- end }}
 spec:
   accessModes:
-    - {{ .Values.persistence.accessMode }}
+    - {{ .Values.persistence.accessMode | default "ReadWriteOnce" }}
   resources:
     requests:
       storage: {{ .Values.persistence.size }}
   {{- if .Values.persistence.storageClass }}
   storageClassName: {{ .Values.persistence.storageClass }}
+  {{- end }}
+{{- end }}
+---
+{{- range .Values.persistence.extraVolumes }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "wallabag.labels" $ | nindent 4 }}
+    {{- if .labels }}
+    {{- toYaml .labels | nindent 4 }}
+    {{- end }}
+spec:
+  accessModes:
+    - {{ .accessMode | default "ReadWriteOnce" }}
+  resources:
+    requests:
+      storage: {{ .size }}
+  {{- if .storageClass }}
+  storageClassName: {{ .storageClass }}
   {{- end }}
 {{- end }}

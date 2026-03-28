@@ -162,6 +162,38 @@ helm install wallabag oci://ghcr.io/sebtiz13/helm-charts/wallabag \
 | `persistence.storageClass` | Storage class | `""` |
 | `persistence.accessMode` | Access mode | `ReadWriteOnce` |
 | `persistence.size` | Volume size | `10Gi` |
+| `persistence.labels` | Custom labels for the main PVC | `{}` |
+
+### Extra Volume Mounts Configuration
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `persistence.extraVolumes` | Additional volumes for custom storage (e.g., cache, logs) | `[]` |
+| `persistence.extraVolumes[].name` | Name of the volume (required) | `""` |
+| `persistence.extraVolumes[].mountPath` | Path where the volume will be mounted in the container (required) | `""` |
+| `persistence.extraVolumes[].accessMode` | Access mode for the PVC (optional) | `"ReadWriteOnce"` |
+| `persistence.extraVolumes[].size` | Storage size for the PVC (required) | `""` |
+| `persistence.extraVolumes[].storageClass` | Storage class for the PVC (optional) | `""` |
+| `persistence.extraVolumes[].labels` | Custom labels for the PVC (optional) | `{}` |
+
+```yaml
+persistence:
+  extraVolumes:
+    - name: wallabag-cache
+      mountPath: /var/www/wallabag/var/cache
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      storageClass: "local-path"
+      labels:
+        app.kubernetes.io/component: cache
+        backup: "false"
+    - name: wallabag-logs
+      mountPath: /var/www/wallabag/var/logs
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      labels:
+        app.kubernetes.io/component: logs
+```
 
 ### Wallabag Configuration
 
@@ -186,6 +218,74 @@ helm install wallabag oci://ghcr.io/sebtiz13/helm-charts/wallabag \
 | `image.repository` | Wallabag image repository | `wallabag/wallabag` |
 | `image.tag` | Wallabag image tag | `""` (uses chart appVersion) |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
+
+### Probes Configuration
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `livenessProbe.enabled` | Enable liveness probe | `true` |
+| `livenessProbe.httpGet.path` | HTTP path for liveness probe | `"/api/info"` |
+| `livenessProbe.httpGet.port` | Port for liveness probe | `"http"` |
+| `livenessProbe.httpGet.scheme` | Scheme for liveness probe | `"HTTP"` |
+| `livenessProbe.initialDelaySeconds` | Initial delay for liveness probe | `nil` |
+| `livenessProbe.periodSeconds` | Period for liveness probe | `nil` |
+| `livenessProbe.timeoutSeconds` | Timeout for liveness probe | `nil` |
+| `livenessProbe.successThreshold` | Success threshold for liveness probe | `nil` |
+| `livenessProbe.failureThreshold` | Failure threshold for liveness probe | `nil` |
+| `readinessProbe.enabled` | Enable readiness probe | `true` |
+| `readinessProbe.httpGet.path` | HTTP path for readiness probe | `"/api/info"` |
+| `readinessProbe.httpGet.port` | Port for readiness probe | `"http"` |
+| `readinessProbe.httpGet.scheme` | Scheme for readiness probe | `"HTTP"` |
+| `readinessProbe.initialDelaySeconds` | Initial delay for readiness probe | `nil` |
+| `readinessProbe.periodSeconds` | Period for readiness probe | `nil` |
+| `readinessProbe.timeoutSeconds` | Timeout for readiness probe | `nil` |
+| `readinessProbe.successThreshold` | Success threshold for readiness probe | `nil` |
+| `readinessProbe.failureThreshold` | Failure threshold for readiness probe | `nil` |
+| `startupProbe.enabled` | Enable startup probe | `false` |
+| `startupProbe.httpGet.path` | HTTP path for startup probe | `"/api/info"` |
+| `startupProbe.httpGet.port` | Port for startup probe | `"http"` |
+| `startupProbe.httpGet.scheme` | Scheme for startup probe | `"HTTP"` |
+| `startupProbe.initialDelaySeconds` | Initial delay for startup probe | `nil` |
+| `startupProbe.periodSeconds` | Period for startup probe | `nil` |
+| `startupProbe.timeoutSeconds` | Timeout for startup probe | `nil` |
+| `startupProbe.successThreshold` | Success threshold for startup probe | `nil` |
+| `startupProbe.failureThreshold` | Failure threshold for startup probe | `nil` |
+
+```yaml
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: "/api/healthz"
+    port: "http"
+    scheme: "HTTPS"
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: "/api/ready"
+    port: "http"
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 3
+
+startupProbe:
+  enabled: true
+  httpGet:
+    path: "/api/info"
+    port: "http"
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 30
+```
 
 ## License
 

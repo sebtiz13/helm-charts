@@ -34,14 +34,18 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-            httpGet:
-              path: /api/info
-              port: http
+            {{- include "wallabag.probe" .Values.livenessProbe | nindent 14 }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
-            httpGet:
-              path: /api/info
-              port: http
+            {{- include "wallabag.probe" .Values.readinessProbe | nindent 14 }}
+          {{- end }}
+          {{- if .Values.startupProbe.enabled }}
+          startupProbe:
+            {{- include "wallabag.probe" .Values.startupProbe | nindent 14 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
@@ -79,6 +83,10 @@ spec:
             - name: data
               mountPath: /var/www/wallabag/data
             {{- end }}
+            {{- range .Values.persistence.extraVolumes }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -100,4 +108,9 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "wallabag.fullname" . }}-pvc
+        {{- end }}
+        {{- range .Values.persistence.extraVolumes }}
+        - name: {{ .name }}
+          persistentVolumeClaim:
+            claimName: {{ .name }}
         {{- end }}

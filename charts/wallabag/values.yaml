@@ -151,7 +151,80 @@ persistence:
   storageClass: ""
   accessMode: ReadWriteOnce
   size: 10Gi
+  # Custom labels for the main PVC
+  # labels:
+  #   app.kubernetes.io/component: storage
+  #   backup: "true"
+  labels: {}
+  # Additional volume mounts for the wallabag container
+  # Useful for mounting custom volumes like cache, logs, or additional storage
+  # Each extra volume can specify:
+  # - name: Name of the volume (required)
+  # - mountPath: Path where the volume will be mounted in the container (required)
+  # - accessMode: Access mode for the PVC (optional, default: ReadWriteOnce)
+  # - size: Storage size for the PVC (required)
+  # - storageClass: Storage class for the PVC (optional)
+  # - labels: Custom labels for the PVC (optional)
+  # Example:
+  # extraVolumes:
+  #   - name: wallabag-cache
+  #     mountPath: /var/www/wallabag/var/cache
+  #     accessMode: ReadWriteOnce
+  #     size: 1Gi
+  #     storageClass: "local-path"
+  #     labels:
+  #       app.kubernetes.io/component: cache
+  #       backup: "false"
+  #   - name: wallabag-logs
+  #     mountPath: /var/www/wallabag/var/logs
+  #     accessMode: ReadWriteOnce
+  #     size: 5Gi
+  #     labels:
+  #       app.kubernetes.io/component: logs
+  extraVolumes: []
 
+# Probes configuration
+# Liveness probe configuration
+livenessProbe:
+  enabled: true
+  # httpGet configuration
+  httpGet:
+    path: "/api/info"
+    port: "http"
+    # scheme: "HTTP"  # Optional: HTTP or HTTPS
+  # initialDelaySeconds: 30  # Optional: Delay before first probe
+  # periodSeconds: 10       # Optional: How often to perform probe
+  # timeoutSeconds: 1       # Optional: When probe times out
+  # successThreshold: 1     # Optional: Minimum consecutive successes
+  # failureThreshold: 3     # Optional: Minimum consecutive failures
+
+# Readiness probe configuration
+readinessProbe:
+  enabled: true
+  # httpGet configuration
+  httpGet:
+    path: "/api/info"
+    port: "http"
+    # scheme: "HTTP"  # Optional: HTTP or HTTPS
+  # initialDelaySeconds: 5   # Optional: Delay before first probe
+  # periodSeconds: 5        # Optional: How often to perform probe
+  # timeoutSeconds: 1       # Optional: When probe times out
+  # successThreshold: 1     # Optional: Minimum consecutive successes
+  # failureThreshold: 3     # Optional: Minimum consecutive failures
+
+# Startup probe configuration
+startupProbe:
+  enabled: false
+  # httpGet configuration
+  httpGet:
+    path: "/api/info"
+    port: "http"
+    # scheme: "HTTP"  # Optional: HTTP or HTTPS
+  # initialDelaySeconds: 30  # Optional: Delay before first probe
+  # periodSeconds: 10       # Optional: How often to perform probe
+  # timeoutSeconds: 1       # Optional: When probe times out
+  # successThreshold: 1     # Optional: Minimum consecutive successes
+  # failureThreshold: 30    # Optional: Minimum consecutive failures
 # Wallabag specific configuration
 wallabag:
   # Overrides the domain name used in the application (by default use ingress.host if enabled)
