@@ -191,6 +191,16 @@ persistence:
   #       app.kubernetes.io/component: logs
   extraVolumes: []
 
+# Extra volumes to add to the deployment
+# Includes volume config and volumeMount config in a single list items
+# extraVolumes:
+#   - name: extras
+#     mountPath: /usr/share/extras
+#     readOnly: true
+#     volume:
+#       emptyDir: {}
+extraVolumes: []
+
 # Probes configuration
 # Liveness probe configuration
 livenessProbe:

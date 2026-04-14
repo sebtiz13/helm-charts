@@ -166,7 +166,7 @@ helm install wallabag oci://ghcr.io/sebtiz13/helm-charts/wallabag \
 | `persistence.labels` | Custom labels for the main PVC | `{}` |
 | `persistence.annotations` | Custom annotations for the main PVC | `{}` |
 
-### Extra Volume Mounts Configuration
+### Persistence Extra Volumes Configuration
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
@@ -196,6 +196,29 @@ persistence:
       size: 5Gi
       labels:
         app.kubernetes.io/component: logs
+```
+
+### Extra Volumes Configuration
+
+Additional generic volumes can be added to the pod and mounted to the main container using `extraVolumes`. This accepts standard Kubernetes `volume` properties within the `.volume` mapping, alongside root-level mount configurations.
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `extraVolumes` | Additional volumes to attach to the pod and mount in the main container | `[]` |
+| `extraVolumes[].name` | Name of the volume (required) | `""` |
+| `extraVolumes[].mountPath` | Path where the volume will be mounted in the container (required) | `""` |
+| `extraVolumes[].readOnly` | Mount the volume as read-only (optional) | `false` |
+| `extraVolumes[].subPath` | Sub-path of the volume to mount (optional) | `""` |
+| `extraVolumes[].subPathExpr` | Sub-path expression of the volume to mount (optional) | `""` |
+| `extraVolumes[].volume` | Standard Kubernetes volume definition (e.g., `emptyDir`, `configMap`, `secret`) (required) | `{}` |
+
+```yaml
+extraVolumes:
+  - name: extras
+    mountPath: /usr/share/extras
+    readOnly: true
+    volume:
+      emptyDir: {}
 ```
 
 ### Wallabag Configuration

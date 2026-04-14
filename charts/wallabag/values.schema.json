@@ -360,6 +360,37 @@
         }
       }
     },
+    "extraVolumes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "mountPath",
+          "volume"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "mountPath": {
+            "type": "string"
+          },
+          "subPath": {
+            "type": "string"
+          },
+          "subPathExpr": {
+            "type": "string"
+          },
+          "readOnly": {
+            "type": "boolean"
+          },
+          "volume": {
+            "type": "object"
+          }
+        }
+      }
+    },
     "livenessProbe": {
       "type": "object",
       "properties": {
@@ -373,11 +404,17 @@
               "type": "string"
             },
             "port": {
-              "type": ["string", "integer"]
+              "type": [
+                "string",
+                "integer"
+              ]
             },
             "scheme": {
               "type": "string",
-              "enum": ["HTTP", "HTTPS"]
+              "enum": [
+                "HTTP",
+                "HTTPS"
+              ]
             }
           }
         },
@@ -416,11 +453,17 @@
               "type": "string"
             },
             "port": {
-              "type": ["string", "integer"]
+              "type": [
+                "string",
+                "integer"
+              ]
             },
             "scheme": {
               "type": "string",
-              "enum": ["HTTP", "HTTPS"]
+              "enum": [
+                "HTTP",
+                "HTTPS"
+              ]
             }
           }
         },
@@ -459,11 +502,17 @@
               "type": "string"
             },
             "port": {
-              "type": ["string", "integer"]
+              "type": [
+                "string",
+                "integer"
+              ]
             },
             "scheme": {
               "type": "string",
-              "enum": ["HTTP", "HTTPS"]
+              "enum": [
+                "HTTP",
+                "HTTPS"
+              ]
             }
           }
         },
