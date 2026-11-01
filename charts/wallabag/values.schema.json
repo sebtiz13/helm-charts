@@ -6,6 +6,26 @@
       "type": "integer",
       "minimum": 1
     },
+    "strategy": {
+      "type": ["object", "null"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["RollingUpdate", "Recreate"]
+        },
+        "rollingUpdate": {
+          "type": "object",
+          "properties": {
+            "maxSurge": {
+              "type": ["string", "integer"]
+            },
+            "maxUnavailable": {
+              "type": ["string", "integer"]
+            }
+          }
+        }
+      }
+    },
     "image": {
       "type": "object",
       "required": [
