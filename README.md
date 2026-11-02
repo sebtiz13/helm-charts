@@ -31,6 +31,7 @@ helm install my-release oci://ghcr.io/sebtiz13/helm-charts/chart --version 0.1.0
 ## Charts
 
 - **[wallabag](charts/wallabag/)**: A Helm chart for Wallabag, a self-hosted application for saving and annotating web pages.
+- **[llamacpp](charts/llamacpp/)**: A Helm chart for llama.cpp server (llama-server), LLM inference in C/C++
 
 ## License
 

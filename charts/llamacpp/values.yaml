@@ -1,0 +1,220 @@
+# Number of replicas for the llama-server deployment
+replicaCount: 1
+
+image:
+  repository: ghcr.io/ggml-org/llama.cpp
+  # Overrides the image tag. Defaults to the chart appVersion when empty.
+  tag: ""
+  pullPolicy: IfNotPresent
+
+# List of image pull secrets for private registries
+imagePullSecrets: []
+
+# Override the chart name
+nameOverride: ""
+# Override the full release name
+fullnameOverride: ""
+
+# Annotations for the Deployment resource
+annotations: {}
+
+# Annotations added to each Pod
+podAnnotations: {}
+
+# Security context applied at the Pod level
+podSecurityContext: {}
+
+# Security context applied at the container level
+securityContext: {}
+
+service:
+  type: ClusterIP
+  # Port exposed by the Kubernetes service
+  port: 9931
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  host: llamacpp.example.com
+  tls:
+    enabled: false
+    # Overrides TLS host
+    # host: llamacpp.example.com
+    # Secret could be manually created in the namespace
+    # secretName: llamacpp-tls
+
+# llama-server configuration via environment variables.
+# These are injected into the container via a ConfigMap (envFrom).
+llamacpp:
+  # Hugging Face model repository
+  # hf: "<user>/<model>:<tag>"
+  # Model path inside the container
+  # model: "/models/model.gguf"
+  # Path to a multimodal projector file
+  # mmproj: "/model/mmproj-model.gguf"
+  # Whether to use multimodal projector file (if available), useful when using hf model (1 = enabled / 0 = disabled, default enabled)
+  # mmprojAuto: 0
+  # Whether to enable the Web UI (1 = enable / 0 = disabled)
+  webui: "0"
+  # Number of GPU layers to offload (0 = CPU only)
+  nGpuLayers: "0"
+  # Context window size
+  contextSize: "2048"
+  # Number of parallel request slots
+  parallelSlots: "1"
+  # -- Threading & GPU --
+  # Number of CPU threads to use for generation
+  # threads: "2"
+  # Index of the GPU to use as main GPU for tensor operations
+  # mainGpu: "0"
+
+  # How to split the model across multiple GPUs
+  # split:
+  #   # Mode of split the model across GPUs, one of:
+  #   # - none: use one GPU only
+  #   # - layer (default): split layers and KV across GPUs (pipelined)
+  #   # - row: split weight across GPUs by rows (parallelized)
+  #   # - tensor: split weights and KV across GPUs (parallelized, EXPERIMENTAL)
+  #   mode: layer
+  #   # Fraction of the model to offload to each GPU (comma-separated, optional)
+  #   tensor: "2.1,1"
+
+  # -- Attention & KV cache --
+  # Enable flash attention: "on" to enable ('on', 'off', or 'auto', default: 'auto')
+  # flashAttn: "on"
+  # KV cache quantization types for keys and values: f16, q8_0, q4_0, etc.
+  # cacheType:
+  #   key: q8_0
+  #   value: q8_0
+  # Amount of KV cache to keep in CPU RAM in MiB
+  # cacheRam: "6144"
+
+  # -- Batching --
+  # batch: logical max batch size, ubatch: physical max batch size
+  # batching:
+  #   batch: "2048"
+  #   ubatch: '1024"
+  #   # contBatching: enable continuous batching — "1" to enable
+  #   contBatching: "1"
+
+  # -- Speculative decoding --
+  # Group of settings related to speculative decoding / draft models
+  # speculativeDraft:
+  #   # Speculative decoding type, e.g. draft-mtp
+  #   type: draft-mtp
+  #   # Maximum number of draft tokens to generate
+  #   draftNMax: "4"
+  #   # Minimum draft acceptance probability
+  #   draftPMin: "0.60"
+  #   cacheType:
+  #     key: "q8_0"
+  #     value: "q8_0"
+
+  # -- Sampling --
+  # temperature: sampling temperature, topP/topK/minP: nucleus/top-k/min-p thresholds
+  # sampling:
+  #   temperature: "0.6"
+  #   topP: "0.95"
+  #   topK: "20"
+  #   minP: "0.05"
+
+  # -- Inference options --
+  # Preserve reasoning tokens in output (1 = enable / 0 = disabled)
+  # reasoningPreserve: "1"
+  # Enable unified KV cache across sequences (1 = enable / 0 = disabled)
+  # kvUnified: "1"
+
+  # Additional arbitrary env vars to inject (key: value map)
+  extraEnv: {}
+
+# Persistence for model files
+persistence:
+  # Enable a PersistentVolumeClaim to store model files
+  enabled: false
+  # StorageClass name; leave empty to use the cluster default
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  # Size of the PersistentVolumeClaim
+  size: 20Gi
+  # Additional labels for the PVC
+  labels: {}
+  # Additional annotations for the PVC
+  annotations: {}
+
+# Resource requests and limits for the llama-server container
+resources: {}
+# Example:
+#   requests:
+#     cpu: 500m
+#     memory: 2Gi
+#   limits:
+#     cpu: 2
+#     memory: 8Gi
+
+# GPU resource allocation
+# When set, the vendor-specific GPU resource is added to the container's
+# limits and requests, merged with any values in `resources` above.
+# Supported vendors:
+#   nvidia → nvidia.com/gpu  (requires NVIDIA device plugin)
+#   amd    → amd.com/gpu     (requires AMD device plugin)
+# gpu:
+#   vendor: nvidia
+#   # Runtime class for the pod (e.g., nvidia).
+#   # Defaults automatically to "nvidia" if gpu.vendor is nvidia.
+#   runtimeClassName: ""
+#   count: 1
+
+# Node selector for pod scheduling
+nodeSelector: {}
+
+# Tolerations for pod scheduling
+tolerations: []
+
+# Affinity rules for pod scheduling
+affinity: {}
+
+# Liveness probe configuration
+livenessProbe:
+  # Enable or disable the liveness probe
+  enabled: true
+  # httpGet:
+  #   path: /health
+  #   port: 9931
+  #   scheme: "HTTP"  # Optional: HTTP or HTTPS
+  # initialDelaySeconds: 30  # Optional: Delay before first probe
+  # periodSeconds: 10       # Optional: How often to perform probe
+  # timeoutSeconds: 1       # Optional: When probe times out
+  # successThreshold: 1     # Optional: Minimum consecutive successes
+  # failureThreshold: 30    # Optional: Minimum consecutive failures
+
+# Readiness probe configuration
+readinessProbe:
+  # Enable or disable the readiness probe
+  enabled: true
+  # httpGet:
+  #   path: /health
+  #   port: 9931
+  #   scheme: "HTTP"  # Optional: HTTP or HTTPS
+  # initialDelaySeconds: 30  # Optional: Delay before first probe
+  # periodSeconds: 10       # Optional: How often to perform probe
+  # timeoutSeconds: 1       # Optional: When probe times out
+  # successThreshold: 1     # Optional: Minimum consecutive successes
+  # failureThreshold: 30    # Optional: Minimum consecutive failures
+
+# Readiness probe configuration
+startupProbe:
+  # Enable or disable the readiness probe
+  enabled: false
+  # httpGet:
+  #   path: /health
+  #   port: 9931
+  #   scheme: "HTTP"  # Optional: HTTP or HTTPS
+  # initialDelaySeconds: 30  # Optional: Delay before first probe
+  # periodSeconds: 10       # Optional: How often to perform probe
+  # timeoutSeconds: 1       # Optional: When probe times out
+  # successThreshold: 1     # Optional: Minimum consecutive successes
+  # failureThreshold: 30    # Optional: Minimum consecutive failures

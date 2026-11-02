@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "llamacpp.fullname" . }}-config
+  labels:
+    {{- include "llamacpp.labels" . | nindent 4 }}
+data:
+  {{- if .Values.llamacpp.hf }}
+  LLAMA_ARG_HF_REPO: {{ .Values.llamacpp.hf | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model }}
+  LLAMA_ARG_MODEL: {{ .Values.llamacpp.model | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.mmproj }}
+  LLAMA_ARG_MMPROJ: {{ .Values.llamacpp.mmproj | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.mmprojAuto }}
+  LLAMA_ARG_MMPROJ_AUTO: {{ .Values.llamacpp.mmprojAuto | quote }}
+  {{- end }}
+  LLAMA_ARG_UI: {{ .Values.llamacpp.webui | quote }}
+  LLAMA_ARG_N_GPU_LAYERS: {{ .Values.llamacpp.nGpuLayers | quote }}
+  LLAMA_ARG_CTX_SIZE: {{ .Values.llamacpp.contextSize | quote }}
+  LLAMA_ARG_N_PARALLEL: {{ .Values.llamacpp.parallelSlots | quote }}
+
+  # -- Threading & GPU --
+  {{- if .Values.llamacpp.threads }}
+  LLAMA_ARG_THREADS: {{ .Values.llamacpp.threads | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.mainGpu }}
+  LLAMA_ARG_MAIN_GPU: {{ .Values.llamacpp.mainGpu | quote }}
+  {{- end }}
+
+  {{- if .Values.llamacpp.split }}
+  {{- if .Values.llamacpp.split.mode }}
+  LLAMA_ARG_SPLIT_MODE: {{ .Values.llamacpp.split.mode | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.split.tensor }}
+  LLAMA_ARG_TENSOR_SPLIT: {{ .Values.llamacpp.split.tensor | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Attention & KV cache --
+  {{- if .Values.llamacpp.flashAttn }}
+  LLAMA_ARG_FLASH_ATTN: {{ .Values.llamacpp.flashAttn | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.cacheType }}
+  {{- if .Values.llamacpp.cacheType.key }}
+  LLAMA_ARG_CACHE_TYPE_K: {{ .Values.llamacpp.cacheType.key | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.cacheType.value }}
+  LLAMA_ARG_CACHE_TYPE_V: {{ .Values.llamacpp.cacheType.value | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.llamacpp.cacheRam }}
+  LLAMA_ARG_CACHE_RAM: {{ .Values.llamacpp.cacheRam | quote }}
+  {{- end }}
+
+  # -- Batching --
+  {{- if .Values.llamacpp.batching }}
+  {{- if .Values.llamacpp.batching.batch }}
+  LLAMA_ARG_BATCH: {{ .Values.llamacpp.batching.batch | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.batching.ubatch }}
+  LLAMA_ARG_UBATCH: {{ .Values.llamacpp.batching.ubatch | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.batching.contBatching }}
+  LLAMA_ARG_CONT_BATCHING: {{ .Values.llamacpp.batching.contBatching | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Speculative decoding --
+  {{- if .Values.llamacpp.speculativeDraft }}
+  {{- if .Values.llamacpp.speculativeDraft.type }}
+  LLAMA_ARG_SPEC_TYPE: {{ .Values.llamacpp.speculativeDraft.type | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftNMax }}
+  LLAMA_ARG_SPEC_DRAFT_N_MAX: {{ .Values.llamacpp.speculativeDraft.draftNMax | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftPMin }}
+  LLAMA_ARG_SPEC_DRAFT_P_MIN: {{ .Values.llamacpp.speculativeDraft.draftPMin | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.cacheType }}
+  {{- if .Values.llamacpp.speculativeDraft.cacheType.key }}
+  LLAMA_ARG_SPEC_DRAFT_CACHE_TYPE_K: {{ .Values.llamacpp.speculativeDraft.cacheType.key | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.cacheType.value }}
+  LLAMA_ARG_SPEC_DRAFT_CACHE_TYPE_V: {{ .Values.llamacpp.speculativeDraft.cacheType.value | quote }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+
+  # -- Sampling --
+  {{- if .Values.llamacpp.sampling }}
+  {{- if .Values.llamacpp.sampling.temperature }}
+  LLAMA_ARG_TEMPERATURE: {{ .Values.llamacpp.sampling.temperature | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.sampling.topP }}
+  LLAMA_ARG_TOP_P: {{ .Values.llamacpp.sampling.topP | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.sampling.topK }}
+  LLAMA_ARG_TOP_K: {{ .Values.llamacpp.sampling.topK | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.sampling.minP }}
+  LLAMA_ARG_MIN_P: {{ .Values.llamacpp.sampling.minP | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Inference options --
+  {{- if .Values.llamacpp.reasoningPreserve }}
+  LLAMA_ARG_REASONING_PRESERVE: {{ .Values.llamacpp.reasoningPreserve | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.kvUnified }}
+  LLAMA_ARG_KV_UNIFIED: {{ .Values.llamacpp.kvUnified | quote }}
+  {{- end }}
+
+  # -- Extra arbitrary env vars --
+  {{- range $key, $value := .Values.llamacpp.extraEnv }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}

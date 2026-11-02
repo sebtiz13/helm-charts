@@ -1,0 +1,24 @@
+apiVersion: v2
+name: llamacpp
+description: A Helm chart for llama.cpp server (llama-server) deployment
+type: application
+version: 0.1.0
+appVersion: "b11960"
+
+annotations:
+  artifacthub.io/category: ai-machine-learning
+
+icon: https://github.com/ggml-org/llama.cpp/blob/master/media/llama1-icon-transparent.svg
+home: https://github.com/ggml-org/llama.cpp
+sources:
+  - https://github.com/sebtiz13/helm-charts/tree/main/charts/llamacpp
+  - https://github.com/ggml-org/llama.cpp
+keywords:
+  - llamacpp
+  - llama
+  - llm
+  - ai
+  - inference
+maintainers:
+  - name: sebtiz13
+    url: https://github.com/sebtiz13
