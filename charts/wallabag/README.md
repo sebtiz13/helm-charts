@@ -70,18 +70,16 @@ helm install wallabag oci://ghcr.io/sebtiz13/helm-charts/wallabag \
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| `replicaCount` | Number of replicas for the llama-server deployment | `1` |
+| `imagePullSecrets` | List of image pull secrets | `[]` |
+| `nameOverride` | Override the chart name | `""` |
+| `fullnameOverride` | Override the full release name | `""` |
 | `annotations` | Annotations for the deployment | `{}` |
-| `mariadb.enabled` | Enable MariaDB subchart | `false` |
-| `mariadb.auth.password` | MariaDB password | `""` (required) |
-| `mariadb.auth.rootPassword` | MariaDB root password | `""` (required) |
-| `ingress.enabled` | Enable ingress | `false` |
-| `ingress.host` | Ingress host | `"wallabag.example.com"` |
-| `ingress.tls.enabled` | Enable TLS | `false` |
-| `persistence.enabled` | Enable persistence | `false` |
-| `wallabag.serverName` | Instance name for 2FA | `"Your wallabag instance"` |
-| `wallabag.secret` | Security token secret | `"ovmpmAWXRCabNlMgzlzFXDYmCFfzGv"` |
-| `wallabag.fos.userRegistration` | Enable public registration | `false` |
-| `wallabag.fos.userConfirmation` | Enable email confirmation | `true` |
+| `podAnnotations` | Annotations added to each Pod | `{}` |
+| `strategy` | Configuration for the deployment strategy | `{}` |
+| `podSecurityContext` | Security context applied at the Pod level | `{}` |
+| `securityContext` | Security context applied at the container level | `{}` |
+
 
 ### MariaDB Subchart Configuration
 
