@@ -1,9 +1,36 @@
 apiVersion: v1
 entries:
+  llamacpp:
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+    apiVersion: v2
+    appVersion: b11960
+    created: "2026-11-02T23:21:14.620598037Z"
+    description: A Helm chart for llama.cpp server (llama-server) deployment
+    digest: d526265f0fb0879f06a740ce14f0aed42a07a7aeca9bb9aa7cf14e6a036c973e
+    home: https://github.com/ggml-org/llama.cpp
+    icon: https://github.com/ggml-org/llama.cpp/blob/master/media/llama1-icon-transparent.svg
+    keywords:
+    - llamacpp
+    - llama
+    - llm
+    - ai
+    - inference
+    maintainers:
+    - name: sebtiz13
+      url: https://github.com/sebtiz13
+    name: llamacpp
+    sources:
+    - https://github.com/sebtiz13/helm-charts/tree/main/charts/llamacpp
+    - https://github.com/ggml-org/llama.cpp
+    type: application
+    urls:
+    - https://sebtiz13.github.io/helm-charts/charts/llamacpp-0.1.0.tgz
+    version: 0.1.0
   wallabag:
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-01T20:16:53.963504877Z"
+    created: "2026-11-02T23:21:14.712792327Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -18,7 +45,7 @@ entries:
       repository: oci://registry-1.docker.io/bitnamicharts
       version: 18.5.11
     description: A Helm chart for wallabag deployment
-    digest: c69a47ef4a1c7d0d08b70c6d69e64c94536f85c8e74e2cac5e12461a5802ab41
+    digest: 2c67110544a855c7013f01c99af09b443d55aac0677f7d234060e5e61c92645e
     home: https://www.wallabag.org/
     icon: https://www.gravatar.com/avatar/5ec91100620f8632bdc665e5facb4d0c?s=220&r=g&d=404
     keywords:
@@ -41,7 +68,7 @@ entries:
     version: 0.7.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-01T20:16:53.947565883Z"
+    created: "2026-11-02T23:21:14.698127999Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -79,7 +106,7 @@ entries:
     version: 0.6.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-01T20:16:53.931075157Z"
+    created: "2026-11-02T23:21:14.683193853Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -117,7 +144,7 @@ entries:
     version: 0.5.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-01T20:16:53.914578787Z"
+    created: "2026-11-02T23:21:14.67068694Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -155,7 +182,7 @@ entries:
     version: 0.4.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-01T20:16:53.897992044Z"
+    created: "2026-11-02T23:21:14.658297916Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -193,7 +220,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-01T20:16:53.88199431Z"
+    created: "2026-11-02T23:21:14.64640607Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -231,7 +258,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-01T20:16:53.865159232Z"
+    created: "2026-11-02T23:21:14.633480589Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -267,4 +294,4 @@ entries:
     urls:
     - https://sebtiz13.github.io/helm-charts/charts/wallabag-0.2.0.tgz
     version: 0.2.0
-generated: "2026-11-01T20:16:53.848389782Z"
+generated: "2026-11-02T23:21:14.61997279Z"
