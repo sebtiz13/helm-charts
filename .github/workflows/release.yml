@@ -35,14 +35,13 @@ jobs:
               helm package "$chart" -d "${TARGET_DIR}"
             fi
           done
-          echo "result=$(ls ${TARGET_DIR}/*.tgz)" >> "$GITHUB_OUTPUT"
+          echo "result=$(echo ${TARGET_DIR}/*.tgz)" >> "$GITHUB_OUTPUT"
 
       - name: Push charts to OCI registry
         env:
           PACKAGES_FILES: ${{ steps.package-charts.outputs.result }}
         run: |
-          echo "${PACKAGES_FILES[@]}"
-          for chart_package in "${PACKAGES_FILES[@]}"; do
+          for chart_package in ${PACKAGES_FILES}; do
             if [ -f "$chart_package" ]; then
               helm push "$chart_package" oci://ghcr.io/${{ github.repository }}
             fi
@@ -60,9 +59,8 @@ jobs:
         env:
           PACKAGES_FILES: ${{ steps.package-charts.outputs.result }}
         run: |
-          echo -n "${{ runner.temp }}/charts_out"
-          [[ ! -d 'gh-pages/charts' ]] && mkdir -p "gh-pages/charts"
-          cp ${PACKAGES_FILES[@]} "gh-pages/charts"
+          mkdir -p "gh-pages/charts"
+          cp ${PACKAGES_FILES} "gh-pages/charts"
 
       - name: Generate index
         working-directory: gh-pages
