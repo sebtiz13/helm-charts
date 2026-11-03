@@ -1,7 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": ["replicaCount", "image", "service", "llamacpp", "persistence"],
+  "required": [
+    "replicaCount",
+    "image",
+    "service",
+    "llamacpp",
+    "persistence"
+  ],
   "properties": {
     "replicaCount": {
       "type": "integer",
@@ -10,7 +16,9 @@
     },
     "image": {
       "type": "object",
-      "required": ["repository"],
+      "required": [
+        "repository"
+      ],
       "properties": {
         "repository": {
           "type": "string",
@@ -22,7 +30,11 @@
         },
         "pullPolicy": {
           "type": "string",
-          "enum": ["Always", "IfNotPresent", "Never"],
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ],
           "description": "Image pull policy"
         }
       }
@@ -45,12 +57,16 @@
     "annotations": {
       "type": "object",
       "description": "Annotations for the Deployment resource",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "podAnnotations": {
       "type": "object",
       "description": "Annotations added to each Pod",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "podSecurityContext": {
       "type": "object",
@@ -62,11 +78,18 @@
     },
     "service": {
       "type": "object",
-      "required": ["type", "port"],
+      "required": [
+        "type",
+        "port"
+      ],
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["ClusterIP", "NodePort", "LoadBalancer"],
+          "enum": [
+            "ClusterIP",
+            "NodePort",
+            "LoadBalancer"
+          ],
           "description": "Kubernetes service type"
         },
         "port": {
@@ -79,7 +102,10 @@
     },
     "ingress": {
       "type": "object",
-      "required": ["enabled", "host"],
+      "required": [
+        "enabled",
+        "host"
+      ],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -92,7 +118,9 @@
         "annotations": {
           "type": "object",
           "description": "Annotations for the Ingress resource",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "type": "string"
+          }
         },
         "host": {
           "type": "string",
@@ -119,7 +147,11 @@
     },
     "llamacpp": {
       "type": "object",
-      "required": ["nGpuLayers", "contextSize", "parallelSlots"],
+      "required": [
+        "nGpuLayers",
+        "contextSize",
+        "parallelSlots"
+      ],
       "properties": {
         "hf": {
           "type": "string",
@@ -134,32 +166,54 @@
           "description": "Path to a multimodal projector file"
         },
         "mmprojAuto": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Whether to use multimodal projector file (if available), useful when using hf model"
         },
         "nGpuLayers": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Number of GPU layers to offload (0 = CPU only)"
         },
         "contextSize": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Context window size"
         },
         "parallelSlots": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Number of parallel request slots"
         },
         "threads": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Number of CPU threads to use for generation"
         },
         "mainGpu": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Index of the GPU to use as main GPU"
         },
         "splitMode": {
           "type": "string",
-          "enum": ["none", "layer", "row"],
+          "enum": [
+            "none",
+            "layer",
+            "row"
+          ],
           "description": "How to split the model across GPUs"
         },
         "tensorSplit": {
@@ -168,7 +222,11 @@
         },
         "flashAttn": {
           "type": "string",
-          "enum": ["on", "off", "auto"],
+          "enum": [
+            "on",
+            "off",
+            "auto"
+          ],
           "description": "Enable flash attention (on to enable)"
         },
         "cacheType": {
@@ -186,7 +244,10 @@
           }
         },
         "cacheRam": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Amount of KV cache to keep in CPU RAM in MiB"
         },
         "batching": {
@@ -194,15 +255,24 @@
           "description": "Batching configuration",
           "properties": {
             "batch": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Logical maximum batch size"
             },
             "ubatch": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Physical maximum batch size"
             },
             "contBatching": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Enable continuous batching (1 to enable)"
             }
           }
@@ -216,11 +286,17 @@
               "description": "Speculative decoding type (e.g. draft-mtp)"
             },
             "draftNMax": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Maximum number of draft tokens to generate"
             },
             "draftPMin": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Minimum draft acceptance probability"
             }
           }
@@ -230,41 +306,65 @@
           "description": "Sampling parameters",
           "properties": {
             "temperature": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Sampling temperature"
             },
             "topP": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Top-P nucleus sampling threshold"
             },
             "topK": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Top-K sampling threshold"
             },
             "minP": {
-              "type": "string",
+              "type": [
+                "string",
+                "integer"
+              ],
               "description": "Min-P sampling threshold"
             }
           }
         },
         "reasoningPreserve": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Preserve reasoning tokens in output (1 to enable)"
         },
         "kvUnified": {
-          "type": "string",
+          "type": [
+            "string",
+            "integer"
+          ],
           "description": "Enable unified KV cache across sequences (1 to enable)"
         },
         "extraEnv": {
           "type": "object",
           "description": "Additional arbitrary env vars to inject (key: value map)",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
     "persistence": {
       "type": "object",
-      "required": ["enabled", "accessMode", "size"],
+      "required": [
+        "enabled",
+        "accessMode",
+        "size"
+      ],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -276,7 +376,11 @@
         },
         "accessMode": {
           "type": "string",
-          "enum": ["ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany"],
+          "enum": [
+            "ReadWriteOnce",
+            "ReadOnlyMany",
+            "ReadWriteMany"
+          ],
           "description": "PVC access mode"
         },
         "size": {
@@ -286,12 +390,16 @@
         "labels": {
           "type": "object",
           "description": "Additional labels for the PVC",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "type": "string"
+          }
         },
         "annotations": {
           "type": "object",
           "description": "Additional annotations for the PVC",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
@@ -299,18 +407,38 @@
       "type": "object",
       "description": "Resource requests and limits for the llama-server container",
       "properties": {
-        "requests": {
-          "type": "object",
-          "properties": {
-            "cpu":    { "type": "string" },
-            "memory": { "type": "string" }
-          }
-        },
         "limits": {
           "type": "object",
           "properties": {
-            "cpu":    { "type": "string" },
-            "memory": { "type": "string" }
+            "cpu": {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            "memory": {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          }
+        },
+        "requests": {
+          "type": "object",
+          "properties": {
+            "cpu": {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            "memory": {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
           }
         }
       }
@@ -322,11 +450,17 @@
     "gpu": {
       "type": "object",
       "description": "GPU resource allocation. When set, adds vendor-specific GPU limits/requests to the container.",
-      "required": ["vendor", "count"],
+      "required": [
+        "vendor",
+        "count"
+      ],
       "properties": {
         "vendor": {
           "type": "string",
-          "enum": ["nvidia", "amd"],
+          "enum": [
+            "nvidia",
+            "amd"
+          ],
           "description": "GPU vendor: nvidia (nvidia.com/gpu) or amd (amd.com/gpu)"
         },
         "count": {
@@ -339,12 +473,16 @@
     "nodeSelector": {
       "type": "object",
       "description": "Node selector for pod scheduling",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "tolerations": {
       "type": "array",
       "description": "Tolerations for pod scheduling",
-      "items": { "type": "object" }
+      "items": {
+        "type": "object"
+      }
     },
     "affinity": {
       "type": "object",
