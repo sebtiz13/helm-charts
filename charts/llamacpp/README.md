@@ -72,7 +72,6 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.mainGpu` | Index of the GPU to use as main GPU | `nil` |
 | `llamacpp.flashAttn` | Enable flash attention (`on` to enable) | `nil` |
 | `llamacpp.cacheRam` | Amount of KV cache to keep in CPU RAM in MiB | `nil` |
-| `llamacpp.reasoningPreserve` | Preserve reasoning tokens in output (`1` to enable) | `nil` |
 | `llamacpp.kvUnified` | Enable unified KV cache across sequences (`1` to enable) | `nil` |
 | `llamacpp.extraEnv` | Additional arbitrary env vars to inject (key: value map) | `{}` |
 
@@ -116,6 +115,20 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.sampling.topP` | Top-P nucleus sampling threshold | `nil` |
 | `llamacpp.sampling.topK` | Top-K sampling threshold | `nil` |
 | `llamacpp.sampling.minP` | Min-P sampling threshold | `nil` |
+| `llamacpp.sampling.repeatPenalty` | Penalize repeat sequence of tokens | `nil` |
+| `llamacpp.sampling.presencePenalty` | Repeat alpha presence penalty | `nil` |
+| `llamacpp.sampling.frequencyPenalty` | Repeat alpha frequency penalty | `nil` |
+
+#### Reasoning
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.reasoning.enabled` | Toggle reasoning/thinking features | `nil` |
+| `llamacpp.reasoning.format` | Reasoning format / thought parsing | `nil` |
+| `llamacpp.reasoning.effort` | Reasoning effort level given to the chat template: 'default' to keep the template default | `nil` |
+| `llamacpp.reasoning.budget` | Token budget for thinking: `-1` for unrestricted, `0` for immediate end, `N>0` for token budget | `nil` |
+| `llamacpp.reasoning.budgetMessage` | Message injected before the end-of-thinking tag when reasoning budget is exhausted | `nil` |
+| `llamacpp.reasoning.preserve` | preserve reasoning trace in the full history, not just the last assistant message | `nil` |
 
 ### Common configuration
 

@@ -332,15 +332,65 @@
                 "integer"
               ],
               "description": "Min-P sampling threshold"
+            },
+            "repeatPenalty": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Control the repetition of token sequences in the generated text (maps to LLAMA_ARG_REPEAT_PENALTY)"
+            },
+            "presencePenalty": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Repeat alpha presence penalty (maps to LLAMA_ARG_PRESENCE_PENALTY)"
+            },
+            "frequencyPenalty": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Repeat alpha frequency penalty (maps to LLAMA_ARG_FREQUENCY_PENALTY)"
             }
           }
         },
-        "reasoningPreserve": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Preserve reasoning tokens in output (1 to enable)"
+        "reasoning": {
+          "type": "object",
+          "description": "Reasoning and thinking model parameters",
+          "properties": {
+            "enabled": {
+              "type": "string",
+              "description": "Toggle reasoning features (maps to LLAMA_ARG_REASONING, on, off, auto)"
+            },
+            "format": {
+              "type": "string",
+              "description": "Reasoning format / thought extraction (maps to LLAMA_ARG_THINK, e.g. auto, deepseek, deepseek-legacy, none)"
+            },
+            "effort": {
+              "type": "string",
+              "description": "Reasoning effort level (maps to LLAMA_ARG_REASONING_EFFORT, e.g. default, low, medium, high)"
+            },
+            "budget": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Thinking token budget (maps to LLAMA_ARG_THINK_BUDGET, -1 = unrestricted, 0 = disabled, >0 = limit)"
+            },
+            "budgetMessage": {
+              "type": "string",
+              "description": "Message to inject when thinking budget is exceeded (maps to LLAMA_ARG_THINK_BUDGET_MESSAGE)"
+            },
+            "preserve": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Preserve reasoning tokens in output (maps to LLAMA_ARG_REASONING_PRESERVE, 1 to enable)"
+            }
+          }
         },
         "kvUnified": {
           "type": [

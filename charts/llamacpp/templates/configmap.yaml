@@ -103,12 +103,40 @@ data:
   {{- if .Values.llamacpp.sampling.minP }}
   LLAMA_ARG_MIN_P: {{ .Values.llamacpp.sampling.minP | quote }}
   {{- end }}
+  {{- if .Values.llamacpp.sampling.repeatPenalty }}
+  LLAMA_ARG_REPEAT_PENALTY: {{ .Values.llamacpp.sampling.repeatPenalty | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.sampling.presencePenalty }}
+  LLAMA_ARG_PRESENCE_PENALTY: {{ .Values.llamacpp.sampling.presencePenalty | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.sampling.frequencyPenalty }}
+  LLAMA_ARG_FREQUENCY_PENALTY: {{ .Values.llamacpp.sampling.frequencyPenalty | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Reasoning --
+  {{- if .Values.llamacpp.reasoning }}
+  {{- if .Values.llamacpp.reasoning.enabled }}
+  LLAMA_ARG_REASONING: {{ .Values.llamacpp.reasoning.enabled | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.reasoning.format }}
+  LLAMA_ARG_THINK: {{ .Values.llamacpp.reasoning.format | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.reasoning.effort }}
+  LLAMA_ARG_REASONING_EFFORT: {{ .Values.llamacpp.reasoning.effort | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.reasoning.budget }}
+  LLAMA_ARG_THINK_BUDGET: {{ .Values.llamacpp.reasoning.budget | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.reasoning.budgetMessage }}
+  LLAMA_ARG_THINK_BUDGET_MESSAGE: {{ .Values.llamacpp.reasoning.budgetMessage | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.reasoning.preserve }}
+  LLAMA_ARG_REASONING_PRESERVE: {{ .Values.llamacpp.reasoning.preserve | quote }}
+  {{- end }}
   {{- end }}
 
   # -- Inference options --
-  {{- if .Values.llamacpp.reasoningPreserve }}
-  LLAMA_ARG_REASONING_PRESERVE: {{ .Values.llamacpp.reasoningPreserve | quote }}
-  {{- end }}
   {{- if .Values.llamacpp.kvUnified }}
   LLAMA_ARG_KV_UNIFIED: {{ .Values.llamacpp.kvUnified | quote }}
   {{- end }}
