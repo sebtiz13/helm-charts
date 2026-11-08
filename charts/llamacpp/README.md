@@ -130,6 +130,13 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.reasoning.budgetMessage` | Message injected before the end-of-thinking tag when reasoning budget is exhausted | `nil` |
 | `llamacpp.reasoning.preserve` | preserve reasoning trace in the full history, not just the last assistant message | `nil` |
 
+#### Embeddings
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.embedding.enabled` | Restrict to only support embedding use case; use only with dedicated embedding models | `nil` |
+| `llamacpp.embedding.pooling` | Pooling type for embeddings, use model default if unspecified | `nil` |
+
 ### Common configuration
 
 | Parameter | Description | Default |

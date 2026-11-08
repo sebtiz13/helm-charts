@@ -392,6 +392,30 @@
             }
           }
         },
+        "embedding": {
+          "type": "object",
+          "description": "Embedding and reranking model parameters",
+          "properties": {
+            "enabled": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Enable embedding mode and endpoints (maps to LLAMA_ARG_EMBEDDINGS)"
+            },
+            "pooling": {
+              "type": "string",
+              "enum": [
+                "none",
+                "mean",
+                "cls",
+                "last",
+                "rank"
+              ],
+              "description": "Pooling type for embeddings (maps to LLAMA_ARG_POOLING, e.g. none, mean, cls, last, rank)"
+            }
+          }
+        },
         "kvUnified": {
           "type": [
             "string",

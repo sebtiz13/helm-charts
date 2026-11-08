@@ -146,6 +146,14 @@ llamacpp:
   #   # (1 = enable / 0 = disabled)
   #   preserve: "1"
 
+  # -- Embeddings --
+  # Group of settings for embedding and reranking models
+  # embedding:
+  #   # Restrict to only support embedding use case; use only with dedicated embedding models (1 = enable / 0 = disabled)
+  #   enabled: "0"
+  #   # Pooling type for embeddings, use model default if unspecified (e.g. "none", "mean", "cls", "last", "rank")
+  #   pooling: "mean"
+
   # -- Inference options --
   # Enable unified KV cache across sequences (1 = enable / 0 = disabled)
   # kvUnified: "1"

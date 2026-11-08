@@ -136,6 +136,16 @@ data:
   {{- end }}
   {{- end }}
 
+  # -- Embeddings & Reranking --
+  {{- if .Values.llamacpp.embedding }}
+  {{- if .Values.llamacpp.embedding.enabled }}
+  LLAMA_ARG_EMBEDDINGS: {{ .Values.llamacpp.embedding.enabled | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.embedding.pooling }}
+  LLAMA_ARG_POOLING: {{ .Values.llamacpp.embedding.pooling | quote }}
+  {{- end }}
+  {{- end }}
+
   # -- Inference options --
   {{- if .Values.llamacpp.kvUnified }}
   LLAMA_ARG_KV_UNIFIED: {{ .Values.llamacpp.kvUnified | quote }}
