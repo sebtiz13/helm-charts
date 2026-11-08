@@ -29,15 +29,39 @@ jobs:
         env:
           TARGET_DIR: "${{ runner.temp }}/charts_out"
         run: |
+          mkdir -p "${TARGET_DIR}"
+
+          BASE_COMMIT="${{ github.event.before }}"
+          if [ -z "$BASE_COMMIT" ] || [ "$BASE_COMMIT" = "0000000000000000000000000000000000000000" ] || ! git rev-parse --verify "$BASE_COMMIT" >/dev/null 2>&1; then
+            if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+              BASE_COMMIT="HEAD~1"
+            else
+              BASE_COMMIT=$(git hash-object -t tree /dev/null)
+            fi
+          fi
+
+          PACKAGED=false
           for chart in charts/*; do
-            if [ -d "$chart" ]; then
-              helm dependency build "$chart"
-              helm package "$chart" -d "${TARGET_DIR}"
+            if [ -d "$chart" ] && [ -f "$chart/Chart.yaml" ]; then
+              if git diff --name-only "$BASE_COMMIT" HEAD -- "$chart/Chart.yaml" | grep -q "Chart.yaml"; then
+                echo "Packaging updated chart: $chart"
+                helm dependency build "$chart"
+                helm package "$chart" -d "${TARGET_DIR}"
+                PACKAGED=true
+              fi
             fi
           done
-          echo "result=$(echo ${TARGET_DIR}/*.tgz)" >> "$GITHUB_OUTPUT"
+
+          if [ "$PACKAGED" = true ]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "result=$(echo ${TARGET_DIR}/*.tgz)" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No chart versions were bumped."
+          fi
 
       - name: Push charts to OCI registry
+        if: steps.package-charts.outputs.has_changes == 'true'
         env:
           PACKAGES_FILES: ${{ steps.package-charts.outputs.result }}
         run: |
@@ -48,13 +72,15 @@ jobs:
           done
           echo "Charts pushed to OCI registry successfully"
 
-      - name: Checkout
+      - name: Checkout gh-pages
+        if: steps.package-charts.outputs.has_changes == 'true'
         uses: actions/checkout@v7
         with:
           path: gh-pages
           ref: gh-pages
 
       - name: Copy package to gh-pages structure
+        if: steps.package-charts.outputs.has_changes == 'true'
         id: copy-package
         env:
           PACKAGES_FILES: ${{ steps.package-charts.outputs.result }}
@@ -63,12 +89,14 @@ jobs:
           cp ${PACKAGES_FILES} "gh-pages/charts"
 
       - name: Generate index
+        if: steps.package-charts.outputs.has_changes == 'true'
         working-directory: gh-pages
         run: |
           helm repo index . --url https://${GITHUB_REPOSITORY_OWNER}.github.io/helm-charts/ --merge index.yaml
           echo "Index generated successfully"
 
       - name: Publish to GitHub Pages
+        if: steps.package-charts.outputs.has_changes == 'true'
         uses: stefanzweifel/git-auto-commit-action@v7.2.1
         with:
           commit_message: "release: update helm repository"
