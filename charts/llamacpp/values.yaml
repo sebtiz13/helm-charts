@@ -1,6 +1,16 @@
 # Number of replicas for the llama-server deployment
 replicaCount: 1
 
+# Deployment strategy configuration
+# If null, no strategy is defined (Kubernetes default will apply)
+# Example:
+# strategy:
+#   type: RollingUpdate
+#   rollingUpdate:
+#     maxSurge: 1
+#     maxUnavailable: 0
+strategy: null
+
 image:
   repository: ghcr.io/ggml-org/llama.cpp
   # Overrides the image tag. Defaults to the chart appVersion when empty.

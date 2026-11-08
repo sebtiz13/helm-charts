@@ -148,6 +148,7 @@ curl http://127.0.0.1:8080/health
 | `imagePullSecrets` | List of image pull secrets | `[]` |
 | `nameOverride` | Override the chart name | `""` |
 | `fullnameOverride` | Override the full release name | `""` |
+| `strategy` | Configuration for the deployment strategy | `{}` |
 | `annotations` | Annotations for the Deployment resource | `{}` |
 
 ### Custom Image Configuration
