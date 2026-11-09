@@ -79,6 +79,20 @@ jobs:
           path: gh-pages
           ref: gh-pages
 
+      - name: Generate index
+        if: steps.package-charts.outputs.has_changes == 'true'
+        env:
+          TARGET_DIR: "${{ runner.temp }}/charts_out"
+        run: |
+          MERGE_FLAG=""
+          if [ -f "gh-pages/index.yaml" ]; then
+            MERGE_FLAG="--merge gh-pages/index.yaml"
+          fi
+
+          helm repo index "${TARGET_DIR}" --url "https://${GITHUB_REPOSITORY_OWNER}.github.io/helm-charts/charts" ${MERGE_FLAG}
+          cp "${TARGET_DIR}/index.yaml" "gh-pages/index.yaml"
+          echo "Index generated successfully"
+
       - name: Copy package to gh-pages structure
         if: steps.package-charts.outputs.has_changes == 'true'
         id: copy-package
@@ -87,13 +101,6 @@ jobs:
         run: |
           mkdir -p "gh-pages/charts"
           cp ${PACKAGES_FILES} "gh-pages/charts"
-
-      - name: Generate index
-        if: steps.package-charts.outputs.has_changes == 'true'
-        working-directory: gh-pages
-        run: |
-          helm repo index . --url https://${GITHUB_REPOSITORY_OWNER}.github.io/helm-charts/ --merge index.yaml
-          echo "Index generated successfully"
 
       - name: Publish to GitHub Pages
         if: steps.package-charts.outputs.has_changes == 'true'
