@@ -5,7 +5,7 @@ entries:
       artifacthub.io/category: ai-machine-learning
     apiVersion: v2
     appVersion: b12110
-    created: "2026-11-08T23:48:02.733408348Z"
+    created: '2026-11-08T23:48:03Z'
     description: A Helm chart for llama.cpp server (llama-server) deployment
     digest: b806a17466382488d14dbc20c33b2662d08f4627a956e332b9fe1025dfb32a84
     home: https://github.com/ggml-org/llama.cpp
@@ -31,7 +31,7 @@ entries:
       artifacthub.io/category: ai-machine-learning
     apiVersion: v2
     appVersion: b12110
-    created: "2026-11-08T23:48:02.732755837Z"
+    created: '2026-11-08T04:33:22Z'
     description: A Helm chart for llama.cpp server (llama-server) deployment
     digest: 87270ec480ef7427abf690039ea6f1e1aa9c5f6eba18c342c2c194b55618dc60
     home: https://github.com/ggml-org/llama.cpp
@@ -57,7 +57,7 @@ entries:
       artifacthub.io/category: ai-machine-learning
     apiVersion: v2
     appVersion: b12110
-    created: "2026-11-08T23:48:02.732098977Z"
+    created: '2026-11-08T00:14:49Z'
     description: A Helm chart for llama.cpp server (llama-server) deployment
     digest: d3fe0b0e9dc158d09083882a69b85fddec9df0ac64649df672cebc9d354be959
     home: https://github.com/ggml-org/llama.cpp
@@ -83,7 +83,7 @@ entries:
       artifacthub.io/category: ai-machine-learning
     apiVersion: v2
     appVersion: b11960
-    created: "2026-11-08T23:48:02.731441246Z"
+    created: '2026-11-03T21:15:36Z'
     description: A Helm chart for llama.cpp server (llama-server) deployment
     digest: b596ad6dfa8d31738affb1a78d72f25d9b8073fcfc7b5cd27fcccbf6e011a2bb
     home: https://github.com/ggml-org/llama.cpp
@@ -109,7 +109,7 @@ entries:
       artifacthub.io/category: ai-machine-learning
     apiVersion: v2
     appVersion: b11960
-    created: "2026-11-08T23:48:02.730878181Z"
+    created: '2026-11-03T01:12:39Z'
     description: A Helm chart for llama.cpp server (llama-server) deployment
     digest: 3ef026d07f98cd6e2bf274fd2ee9547b7159ba8026a4d21a48139567edcdff1b
     home: https://github.com/ggml-org/llama.cpp
@@ -135,7 +135,7 @@ entries:
       artifacthub.io/category: ai-machine-learning
     apiVersion: v2
     appVersion: b11960
-    created: "2026-11-08T23:48:02.73019367Z"
+    created: '2026-11-02T23:21:15Z'
     description: A Helm chart for llama.cpp server (llama-server) deployment
     digest: d526265f0fb0879f06a740ce14f0aed42a07a7aeca9bb9aa7cf14e6a036c973e
     home: https://github.com/ggml-org/llama.cpp
@@ -160,7 +160,7 @@ entries:
   wallabag:
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-08T23:48:02.853623427Z"
+    created: '2026-11-01T20:16:54Z'
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -198,7 +198,7 @@ entries:
     version: 0.7.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-08T23:48:02.837702002Z"
+    created: '2026-04-14T23:55:59Z'
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -236,7 +236,7 @@ entries:
     version: 0.6.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-08T23:48:02.821326554Z"
+    created: '2026-03-28T15:33:19Z'
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -274,7 +274,7 @@ entries:
     version: 0.5.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-08T23:48:02.800331171Z"
+    created: '2026-03-28T13:38:57Z'
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -312,7 +312,7 @@ entries:
     version: 0.4.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-08T23:48:02.781949712Z"
+    created: '2026-03-28T01:24:32Z'
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -350,7 +350,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-08T23:48:02.765934384Z"
+    created: '2026-03-24T01:00:50Z'
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -388,7 +388,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 2.6.14
-    created: "2026-11-08T23:48:02.749852535Z"
+    created: '2026-03-23T23:19:42Z'
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -424,4 +424,4 @@ entries:
     urls:
     - https://sebtiz13.github.io/helm-charts/charts/wallabag-0.2.0.tgz
     version: 0.2.0
-generated: "2026-11-08T23:48:02.728610368Z"
+generated: '2026-11-08T23:48:02.728610368Z'
