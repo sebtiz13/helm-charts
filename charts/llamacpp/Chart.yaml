@@ -2,8 +2,8 @@ apiVersion: v2
 name: llamacpp
 description: A Helm chart for llama.cpp server (llama-server) deployment
 type: application
-version: 0.2.2
-appVersion: "b12110"
+version: 0.3.0
+appVersion: "b12191"
 
 annotations:
   artifacthub.io/category: ai-machine-learning

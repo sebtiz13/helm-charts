@@ -83,6 +83,15 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.split.mode` | How to split the model across GPUs (`none`, `layer`, `row`) | `nil` |
 | `llamacpp.split.tensor` | Fraction of the model to offload to each GPU (comma-separated) | `nil` |
 
+#### MoE (Mixture of Experts)
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.moe.cpuOffload`    | Keep **all** MoE feed-forward weights in CPU RAM instead of VRAM (`1` to enable). Useful for large MoE models on GPUs with limited VRAM. | `nil`   |
+| `llamacpp.moe.nCpuLayers`    | Keep MoE weights of the **first N layers** in CPU RAM. Provides granular VRAM/RAM split control.                                         | `nil`   |
+| `llamacpp.moe.cacheMib`      | GPU cache size in MiB dedicated to frequently used MoE experts (`0` = disabled). Shared across GPUs in multi-GPU setups.                 | `nil`   |
+| `llamacpp.moe.cacheCpuShare` | Share/ratio for MoE cache misses handled via CPU memory (float, e.g. `0.5`).                                                             | `nil`   |
+
 #### Cache type
 
 | Parameter | Description | Default |

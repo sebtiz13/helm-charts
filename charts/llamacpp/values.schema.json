@@ -172,6 +172,13 @@
           ],
           "description": "Whether to use multimodal projector file (if available), useful when using hf model"
         },
+        "webui": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Whether to enable the Web UI (1 = enable, 0 = disabled)"
+        },
         "nGpuLayers": {
           "type": [
             "string",
@@ -207,18 +214,25 @@
           ],
           "description": "Index of the GPU to use as main GPU"
         },
-        "splitMode": {
-          "type": "string",
-          "enum": [
-            "none",
-            "layer",
-            "row"
-          ],
-          "description": "How to split the model across GPUs"
-        },
-        "tensorSplit": {
-          "type": "string",
-          "description": "Fraction of the model to offload to each GPU (comma-separated)"
+        "split": {
+          "type": "object",
+          "description": "How to split the model across multiple GPUs",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "none",
+                "layer",
+                "row",
+                "tensor"
+              ],
+              "description": "Split mode: none = one GPU only, layer = split layers and KV (pipelined), row = split weights by rows (parallelized), tensor = split weights and KV (parallelized, EXPERIMENTAL)"
+            },
+            "tensor": {
+              "type": "string",
+              "description": "Fraction of the model to offload to each GPU (comma-separated, e.g. '2.1,1')"
+            }
+          }
         },
         "flashAttn": {
           "type": "string",
@@ -233,11 +247,11 @@
           "type": "object",
           "description": "KV cache quantization types for keys and values",
           "properties": {
-            "k": {
+            "key": {
               "type": "string",
               "description": "KV cache quantization type for keys (e.g. f16, q8_0, q4_0)"
             },
-            "v": {
+            "value": {
               "type": "string",
               "description": "KV cache quantization type for values (e.g. f16, q8_0, q4_0)"
             }
@@ -298,6 +312,20 @@
                 "integer"
               ],
               "description": "Minimum draft acceptance probability"
+            },
+            "cacheType": {
+              "type": "object",
+              "description": "KV cache quantization types for the draft model",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "KV cache quantization type for keys (e.g. f16, q8_0, q4_0)"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "KV cache quantization type for values (e.g. f16, q8_0, q4_0)"
+                }
+              }
             }
           }
         },
@@ -389,6 +417,41 @@
                 "integer"
               ],
               "description": "Preserve reasoning tokens in output (maps to LLAMA_ARG_REASONING_PRESERVE, 1 to enable)"
+            }
+          }
+        },
+        "moe": {
+          "type": "object",
+          "description": "Mixture of Experts (MoE) configuration for models such as DeepSeek or Qwen MoE",
+          "properties": {
+            "cpuOffload": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Keep all MoE feed-forward weights in CPU RAM instead of VRAM (maps to LLAMA_ARG_CPU_MOE, 1 to enable)"
+            },
+            "nCpuLayers": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Keep MoE weights of the first N layers in CPU RAM (maps to LLAMA_ARG_N_CPU_MOE)"
+            },
+            "cacheMib": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "minimum": 0,
+              "description": "GPU cache size in MiB dedicated to frequently used MoE experts (maps to LLAMA_ARG_MOE_CACHE_MIB, default 0 = disabled)"
+            },
+            "cacheCpuShare": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "Share/ratio for MoE cache misses handled via CPU memory (maps to LLAMA_ARG_MOE_CACHE_CPU_SHARE, float between 0 and 1)"
             }
           }
         },

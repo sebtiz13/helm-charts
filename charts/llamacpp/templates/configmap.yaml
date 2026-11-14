@@ -39,6 +39,22 @@ data:
   {{- end }}
   {{- end }}
 
+  # -- MoE (Mixture of Experts) --
+  {{- if .Values.llamacpp.moe }}
+  {{- if .Values.llamacpp.moe.cpuOffload }}
+  LLAMA_ARG_CPU_MOE: {{ .Values.llamacpp.moe.cpuOffload | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.moe.nCpuLayers }}
+  LLAMA_ARG_N_CPU_MOE: {{ .Values.llamacpp.moe.nCpuLayers | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.moe.cacheMib }}
+  LLAMA_ARG_MOE_CACHE_MIB: {{ .Values.llamacpp.moe.cacheMib | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.moe.cacheCpuShare }}
+  LLAMA_ARG_MOE_CACHE_CPU_SHARE: {{ .Values.llamacpp.moe.cacheCpuShare | quote }}
+  {{- end }}
+  {{- end }}
+
   # -- Attention & KV cache --
   {{- if .Values.llamacpp.flashAttn }}
   LLAMA_ARG_FLASH_ATTN: {{ .Values.llamacpp.flashAttn | quote }}

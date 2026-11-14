@@ -93,6 +93,19 @@ llamacpp:
   #   # Fraction of the model to offload to each GPU (comma-separated, optional)
   #   tensor: "2.1,1"
 
+  # -- MoE (Mixture of Experts) --
+  # Group of settings for Mixture of Experts models (e.g. DeepSeek, Qwen MoE)
+  # moe:
+  #   # Keep all MoE feed-forward weights in CPU RAM instead of VRAM (1 = enable / 0 = disabled)
+  #   # Useful for large MoE models on GPUs with limited VRAM
+  #   cpuOffload: "1"
+  #   # Keep MoE weights of the first N layers in CPU (overrides cpuOffload for those layers)
+  #   # nCpuLayers: "10"
+  #   # GPU cache size in MiB dedicated to frequently used MoE experts (default: 0 = disabled)
+  #   cacheMib: "2048"
+  #   # Share/ratio for MoE cache misses handled via host/CPU memory (float, e.g. "0.5")
+  #   cacheCpuShare: "0.5"
+
   # -- Attention & KV cache --
   # Enable flash attention: "on" to enable ('on', 'off', or 'auto', default: 'auto')
   # flashAttn: "on"
