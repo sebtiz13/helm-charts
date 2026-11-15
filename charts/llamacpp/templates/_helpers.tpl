@@ -111,6 +111,36 @@ requests:
 {{- end -}}
 
 {{/*
+ConfigMap name for llama-server environment variables.
+*/}}
+{{- define "llamacpp.configMapName" -}}
+{{- printf "%s-config" (include "llamacpp.fullname" .) -}}
+{{- end }}
+
+{{/*
+ConfigMap name for model presets (presets.ini).
+*/}}
+{{- define "llamacpp.presetsConfigMapName" -}}
+{{- printf "%s-presets" (include "llamacpp.fullname" .) -}}
+{{- end }}
+
+{{/*
+Configmap name condition for configMapRef entry for the main llama-server config.
+Returns existingConfigMap if set, otherwise the default generated name.
+*/}}
+{{- define "llamacpp.configMapRef" -}}
+{{- .Values.llamacpp.existingConfigMap | default (include "llamacpp.configMapName" .) -}}
+{{- end }}
+
+{{/*
+Configmap name condition for configMapRef entry for model presets
+Returns existingConfigMap if set, otherwise the default generated name.
+*/}}
+{{- define "llamacpp.presetsConfigMapRef" -}}
+{{- .Values.presets.existingConfigMap | default (include "llamacpp.presetsConfigMapName" .) -}}
+{{- end }}
+
+{{/*
 Generate a probe configuration
 */}}
 {{- define "llamacpp.probe" -}}

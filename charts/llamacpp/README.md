@@ -60,6 +60,7 @@ curl http://127.0.0.1:8080/health
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| `llamacpp.existingConfigMap` | Name of an existing ConfigMap containing llama-server environment variables | `""` |
 | `llamacpp.nGpuLayers` | Number of GPU layers to offload (`0` = CPU only) | `0` |
 | `llamacpp.nCpuFfn` | Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of `nCpuLayers`) | `nil` |
 | `llamacpp.parallelSlots` | Number of parallel request slots | `1` |
@@ -333,6 +334,16 @@ curl http://127.0.0.1:8080/health
 | `ingress.tls.enabled` | Enable TLS | `false` |
 | `ingress.tls.host` | Overrides TLS host | `""` |
 | `ingress.tls.secretName` | TLS secret name | `""` |
+
+### Presets Configuration
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `presets.enabled` | Enable model presets configuration | `false` |
+| `presets.existingConfigMap` | Name of an existing ConfigMap containing presets.ini | `""` |
+| `presets.default` | Global default options applied to all preset models (`[*]` section) | `{}` |
+| `presets.models` | Map of model presets with model names as sections and parameter maps as values | `{}` |
+| `presets.rawContent` | Raw INI content for presets (takes precedence over `default` and `models`) | `""` |
 
 ### Persistence Configuration
 

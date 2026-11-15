@@ -20,7 +20,12 @@ spec:
   template:
     metadata:
       annotations:
+        {{- if not .Values.llamacpp.existingConfigMap }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if and .Values.presets.enabled (not .Values.presets.existingConfigMap) }}
+        checksum/presets: {{ include (print $.Template.BasePath "/presets-configmap.yaml") . | sha256sum }}
+        {{- end }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -53,9 +58,13 @@ spec:
               value: "9931"
             - name: LLAMA_CACHE
               value: "/models"
+            {{- if or .Values.presets.enabled .Values.presets.existingConfigMap }}
+            - name: LLAMA_ARG_MODELS_PRESET
+              value: "/etc/llamacpp/presets.ini"
+            {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ include "llamacpp.fullname" . }}-config
+                name: {{ include "llamacpp.configMapRef" . }}
           ports:
             - name: http
               containerPort: 9931
@@ -79,16 +88,30 @@ spec:
           resources:
             {{- toYaml $merged | nindent 12 }}
           {{- end }}
-          {{- if .Values.persistence.enabled }}
+          {{- if or .Values.persistence.enabled .Values.presets.enabled .Values.presets.existingConfigMap }}
           volumeMounts:
+            {{- if .Values.persistence.enabled }}
             - name: models
               mountPath: /models
+            {{- end }}
+            {{- if or .Values.presets.enabled .Values.presets.existingConfigMap }}
+            - name: presets
+              mountPath: /etc/llamacpp
+              readOnly: true
+            {{- end }}
           {{- end }}
-      {{- if .Values.persistence.enabled }}
+      {{- if or .Values.persistence.enabled .Values.presets.enabled .Values.presets.existingConfigMap }}
       volumes:
+        {{- if .Values.persistence.enabled }}
         - name: models
           persistentVolumeClaim:
             claimName: {{ include "llamacpp.fullname" . }}-models
+        {{- end }}
+        {{- if or .Values.presets.enabled .Values.presets.existingConfigMap }}
+        - name: presets
+          configMap:
+            name: {{ include "llamacpp.presetsConfigMapRef" . }}
+        {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

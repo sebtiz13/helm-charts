@@ -60,6 +60,9 @@ ingress:
 # llama-server configuration via environment variables.
 # These are injected into the container via a ConfigMap (envFrom).
 llamacpp:
+  # Name of an existing ConfigMap containing llama-server environment variables.
+  # If specified, the default ConfigMap will not be created.
+  existingConfigMap: ""
   # Number of GPU layers to offload (0 = CPU only)
   nGpuLayers: "0"
   # Number of parallel request slots
@@ -420,6 +423,39 @@ llamacpp:
 
   # Additional arbitrary env vars to inject (key: value map)
   extraEnv: {}
+
+# Configuration for llama.cpp model presets (router mode via --models-preset).
+# Presets are stored in an INI file (presets.ini) in a ConfigMap and mounted at /etc/llamacpp/presets.ini.
+presets:
+  # Enable model presets configuration
+  enabled: false
+  # Name of an existing ConfigMap containing presets.ini.
+  # If specified, no presets ConfigMap will be created by this chart.
+  existingConfigMap: ""
+  # Global options applied to all preset models ([*] section in presets.ini).
+  # Accepts any llama-server argument (without leading dashes) or LLAMA_ARG_* key.
+  default: {}
+  # Example:
+  # default:
+  #   ctx-size: 8192
+  #   temp: 0.7
+
+  # Map of model presets.
+  # Section names ([model-name]) become the model identifiers requested by clients.
+  # Options match llama-server arguments (without leading dashes) or LLAMA_ARG_* keys.
+  models: {}
+  # Example:
+  # models:
+  #   qwen-2.5-7b:
+  #     hf: "Qwen/Qwen2.5-7B-Instruct-GGUF:Q4_K_M"
+  #     ctx-size: 32768
+  #     temp: 0.7
+  #   deepseek-coder:
+  #     m: "/models/deepseek-coder.gguf"
+
+  # Raw INI configuration string.
+  # If provided, this overrides `default` and `models`.
+  rawContent: ""
 
 # Persistence for model files
 persistence:

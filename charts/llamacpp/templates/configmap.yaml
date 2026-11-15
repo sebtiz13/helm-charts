@@ -1,7 +1,8 @@
+{{- if not .Values.llamacpp.existingConfigMap }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "llamacpp.fullname" . }}-config
+  name: {{ include "llamacpp.configMapName" . }}
   labels:
     {{- include "llamacpp.labels" . | nindent 4 }}
 data:
@@ -521,3 +522,4 @@ data:
   {{- range $key, $value := .Values.llamacpp.extraEnv }}
   {{ $key }}: {{ $value | quote }}
   {{- end }}
+{{- end }}

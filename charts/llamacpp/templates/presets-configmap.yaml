@@ -1,0 +1,29 @@
+{{- if and .Values.presets.enabled (not .Values.presets.existingConfigMap) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "llamacpp.presetsConfigMapName" . }}
+  labels:
+    {{- include "llamacpp.labels" . | nindent 4 }}
+data:
+  presets.ini: |
+{{- if .Values.presets.rawContent }}
+{{ .Values.presets.rawContent | indent 4 }}
+{{- else }}
+    version = 1
+{{- if .Values.presets.default }}
+
+    [*]
+{{- range $key, $value := .Values.presets.default }}
+    {{ $key }} = {{ $value }}
+{{- end }}
+{{- end }}
+{{- range $model, $params := .Values.presets.models }}
+
+    [{{ $model }}]
+{{- range $key, $value := $params }}
+    {{ $key }} = {{ $value }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
