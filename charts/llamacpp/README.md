@@ -32,7 +32,7 @@ helm install my-llamacpp ./charts/llamacpp
 helm install my-llamacpp sebtiz13/llamacpp \
   --set llamacpp.model.model=/models/mistral-7b.gguf \
   --set llamacpp.nGpuLayers=32 \
-  --set llamacpp.contextSize=4096 \
+  --set llamacpp.context.size=4096 \
   --set persistence.size=50Gi
 ```
 
@@ -62,7 +62,6 @@ curl http://127.0.0.1:8080/health
 |-----------|-------------|---------|
 | `llamacpp.nGpuLayers` | Number of GPU layers to offload (`0` = CPU only) | `0` |
 | `llamacpp.nCpuFfn` | Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of `nCpuLayers`) | `nil` |
-| `llamacpp.contextSize` | Context window size | `2048` |
 | `llamacpp.parallelSlots` | Number of parallel request slots | `1` |
 | `llamacpp.alias` | Model name alias exposed in the API (comma-separated) | `nil` |
 | `llamacpp.timeout` | Server read/write timeout in seconds | `nil` |
@@ -109,6 +108,31 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.model.imageMaxTokens` | Maximum number of image tokens to generate per image (`0` = from model) | `nil` |
 | `llamacpp.model.imageMinTokens` | Minimum number of image tokens per image (`0` = from model) | `nil` |
 | `llamacpp.model.mtmdBatchMaxTokens` | Maximum tokens in one multimodal batch (`0` = unlimited) | `nil` |
+
+#### Context & memory
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.context.size` | Context window size | `4096` |
+| `llamacpp.context.shift` | Enable context-shift when context is full (`1` = enable / `0` = disabled) | `nil` |
+| `llamacpp.context.cachePrompt` | Enable KV cache reuse for identical prompt prefixes (`1` = enable / `0` = disabled) | `nil` |
+| `llamacpp.context.cacheReuse` | Minimum number of prefix tokens to reuse from the KV cache | `nil` |
+| `llamacpp.context.cacheIdleSlots` | Maximum number of idle slots whose KV cache to keep in memory (`-1` = all) | `nil` |
+| `llamacpp.context.kvUnifiedPerSlot` | Unified KV cache size per slot in tokens (overrides `context.size` per slot) | `nil` |
+| `llamacpp.context.kvOffload` | Whether to enable KV cache offloading to GPU (`1` = enable / `0` = disabled) | `nil` |
+| `llamacpp.context.swaFull` | Use full-size SWA (Sliding Window Attention) cache (`1` = enable / `0` = disabled) | `nil` |
+| `llamacpp.context.checkpoints` | Whether to enable context-state checkpoints for recompute (`1` = enable / `0` = disabled) | `nil` |
+| `llamacpp.context.checkpointMinSpacingNt` | Minimum token spacing between context checkpoints | `nil` |
+| `llamacpp.context.slotSavePath` | Path to save/restore slot state (KV cache) for resume support | `nil` |
+| `llamacpp.context.ropeScalingType` | RoPE frequency scaling method (`none`, `linear`, `yarn`) | `nil` |
+| `llamacpp.context.ropeScale` | RoPE context scaling factor, expands context by factor N | `nil` |
+| `llamacpp.context.ropeFreqBase` | RoPE base frequency for NTK-aware scaling | `nil` |
+| `llamacpp.context.ropeFreqScale` | RoPE frequency scaling factor, expands context by 1/N | `nil` |
+| `llamacpp.context.yarnOrigCtx` | YaRN: original context size of the model (`0` = training context) | `nil` |
+| `llamacpp.context.yarnExtFactor` | YaRN: extrapolation mix factor (`0` = full interpolation) | `nil` |
+| `llamacpp.context.yarnAttnFactor` | YaRN: scale sqrt(t) or attention magnitude | `nil` |
+| `llamacpp.context.yarnBetaSlow` | YaRN: high correction dim or alpha | `nil` |
+| `llamacpp.context.yarnBetaFast` | YaRN: low correction dim or beta | `nil` |
 
 #### Fit controls
 

@@ -9,7 +9,6 @@ data:
   {{- if .Values.llamacpp.nCpuFfn }}
   LLAMA_ARG_N_CPU_FFN: {{ .Values.llamacpp.nCpuFfn | quote }}
   {{- end }}
-  LLAMA_ARG_CTX_SIZE: {{ .Values.llamacpp.contextSize | quote }}
   LLAMA_ARG_N_PARALLEL: {{ .Values.llamacpp.parallelSlots | quote }}
   {{- if .Values.llamacpp.alias }}
   LLAMA_ARG_ALIAS: {{ .Values.llamacpp.alias | quote }}
@@ -127,6 +126,70 @@ data:
   {{- end }}
   {{- if .Values.llamacpp.model.mtmdBatchMaxTokens }}
   LLAMA_ARG_MTMD_BATCH_MAX_TOKENS: {{ .Values.llamacpp.model.mtmdBatchMaxTokens | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Context & memory --
+  {{- if .Values.llamacpp.context }}
+  {{- if .Values.llamacpp.context.size }}
+  LLAMA_ARG_CTX_SIZE: {{ .Values.llamacpp.context.size | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.shift }}
+  LLAMA_ARG_CONTEXT_SHIFT: {{ .Values.llamacpp.context.shift | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.cachePrompt }}
+  LLAMA_ARG_CACHE_PROMPT: {{ .Values.llamacpp.context.cachePrompt | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.cacheReuse }}
+  LLAMA_ARG_CACHE_REUSE: {{ .Values.llamacpp.context.cacheReuse | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.cacheIdleSlots }}
+  LLAMA_ARG_CACHE_IDLE_SLOTS: {{ .Values.llamacpp.context.cacheIdleSlots | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.kvUnifiedPerSlot }}
+  LLAMA_ARG_KV_UNIFIED_PER_SLOT: {{ .Values.llamacpp.context.kvUnifiedPerSlot | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.kvOffload }}
+  LLAMA_ARG_KV_OFFLOAD: {{ .Values.llamacpp.context.kvOffload | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.swaFull }}
+  LLAMA_ARG_SWA_FULL: {{ .Values.llamacpp.context.swaFull | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.checkpoints }}
+  LLAMA_ARG_CTX_CHECKPOINTS: {{ .Values.llamacpp.context.checkpoints | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.checkpointMinSpacingNt }}
+  LLAMA_ARG_CHECKPOINT_MIN_SPACING_NT: {{ .Values.llamacpp.context.checkpointMinSpacingNt | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.slotSavePath }}
+  LLAMA_ARG_SLOT_SAVE_PATH: {{ .Values.llamacpp.context.slotSavePath | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.ropeScalingType }}
+  LLAMA_ARG_ROPE_SCALING_TYPE: {{ .Values.llamacpp.context.ropeScalingType | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.ropeScale }}
+  LLAMA_ARG_ROPE_SCALE: {{ .Values.llamacpp.context.ropeScale | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.ropeFreqBase }}
+  LLAMA_ARG_ROPE_FREQ_BASE: {{ .Values.llamacpp.context.ropeFreqBase | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.ropeFreqScale }}
+  LLAMA_ARG_ROPE_FREQ_SCALE: {{ .Values.llamacpp.context.ropeFreqScale | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.yarnOrigCtx }}
+  LLAMA_ARG_YARN_ORIG_CTX: {{ .Values.llamacpp.context.yarnOrigCtx | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.yarnExtFactor }}
+  LLAMA_ARG_YARN_EXT_FACTOR: {{ .Values.llamacpp.context.yarnExtFactor | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.yarnAttnFactor }}
+  LLAMA_ARG_YARN_ATTN_FACTOR: {{ .Values.llamacpp.context.yarnAttnFactor | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.yarnBetaSlow }}
+  LLAMA_ARG_YARN_BETA_SLOW: {{ .Values.llamacpp.context.yarnBetaSlow | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.context.yarnBetaFast }}
+  LLAMA_ARG_YARN_BETA_FAST: {{ .Values.llamacpp.context.yarnBetaFast | quote }}
   {{- end }}
   {{- end }}
 

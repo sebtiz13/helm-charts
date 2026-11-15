@@ -148,7 +148,7 @@
     "llamacpp": {
       "type": "object",
       "required": [
-        "contextSize",
+        "context",
         "parallelSlots"
       ],
       "properties": {
@@ -165,13 +165,6 @@
             "integer"
           ],
           "description": "Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of nCpuLayers)"
-        },
-        "contextSize": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Context window size"
         },
         "parallelSlots": {
           "type": [
@@ -403,6 +396,154 @@
                 "integer"
               ],
               "description": "Maximum tokens in one multimodal batch (maps to LLAMA_ARG_MTMD_BATCH_MAX_TOKENS, default: 0 = unlimited)"
+            }
+          }
+        },
+        "context": {
+          "type": "object",
+          "description": "Context window and KV cache memory settings",
+          "required": [
+            "size"
+          ],
+          "properties": {
+            "size": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Context window size (maps to LLAMA_ARG_CTX_SIZE)"
+            },
+            "shift": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Enable context-shift when context is full (maps to LLAMA_ARG_CONTEXT_SHIFT, 1 to enable)"
+            },
+            "cachePrompt": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Enable KV cache reuse for identical prompt prefixes (maps to LLAMA_ARG_CACHE_PROMPT, 1 to enable)"
+            },
+            "cacheReuse": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Minimum number of prefix tokens to reuse from the KV cache (maps to LLAMA_ARG_CACHE_REUSE, default: 0)"
+            },
+            "cacheIdleSlots": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Maximum number of idle slots whose KV cache to keep in memory (maps to LLAMA_ARG_CACHE_IDLE_SLOTS, default: -1 = all)"
+            },
+            "kvUnifiedPerSlot": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Unified KV cache size per slot in tokens, overrides context.size per slot (maps to LLAMA_ARG_KV_UNIFIED_PER_SLOT)"
+            },
+            "kvOffload": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to enable KV cache offloading to GPU (maps to LLAMA_ARG_KV_OFFLOAD, 1 to enable)"
+            },
+            "swaFull": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Use full-size SWA (Sliding Window Attention) cache (maps to LLAMA_ARG_SWA_FULL, 1 to enable)"
+            },
+            "checkpoints": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to enable context-state checkpoints for recompute (maps to LLAMA_ARG_CTX_CHECKPOINTS, 1 to enable)"
+            },
+            "checkpointMinSpacingNt": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Minimum token spacing between context checkpoints (maps to LLAMA_ARG_CHECKPOINT_MIN_SPACING_NT)"
+            },
+            "slotSavePath": {
+              "type": "string",
+              "description": "Path to save/restore slot state (KV cache) for resume support (maps to LLAMA_ARG_SLOT_SAVE_PATH)"
+            },
+            "ropeScalingType": {
+              "type": "string",
+              "enum": [
+                "none",
+                "linear",
+                "yarn"
+              ],
+              "description": "RoPE frequency scaling method (maps to LLAMA_ARG_ROPE_SCALING_TYPE, default: linear unless set by model)"
+            },
+            "ropeScale": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "RoPE context scaling factor, expands context by factor N (maps to LLAMA_ARG_ROPE_SCALE)"
+            },
+            "ropeFreqBase": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "RoPE base frequency for NTK-aware scaling (maps to LLAMA_ARG_ROPE_FREQ_BASE, default: from model)"
+            },
+            "ropeFreqScale": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "RoPE frequency scaling factor, expands context by 1/N (maps to LLAMA_ARG_ROPE_FREQ_SCALE)"
+            },
+            "yarnOrigCtx": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "YaRN: original context size of the model (maps to LLAMA_ARG_YARN_ORIG_CTX, default: 0 = training context)"
+            },
+            "yarnExtFactor": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "YaRN: extrapolation mix factor (maps to LLAMA_ARG_YARN_EXT_FACTOR, default: -1.00, 0 = full interpolation)"
+            },
+            "yarnAttnFactor": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "YaRN: scale sqrt(t) or attention magnitude (maps to LLAMA_ARG_YARN_ATTN_FACTOR, default: -1.00)"
+            },
+            "yarnBetaSlow": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "YaRN: high correction dim or alpha (maps to LLAMA_ARG_YARN_BETA_SLOW, default: -1.00)"
+            },
+            "yarnBetaFast": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "YaRN: low correction dim or beta (maps to LLAMA_ARG_YARN_BETA_FAST, default: -1.00)"
             }
           }
         },

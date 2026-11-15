@@ -62,8 +62,6 @@ ingress:
 llamacpp:
   # Number of GPU layers to offload (0 = CPU only)
   nGpuLayers: "0"
-  # Context window size
-  contextSize: "4096"
   # Number of parallel request slots
   parallelSlots: "1"
   # Model name alias exposed in the API (comma-separated)
@@ -145,6 +143,49 @@ llamacpp:
   #   # imageMinTokens: "0"
   #   # Maximum tokens in one multimodal batch (default: 0 = unlimited)
   #   # mtmdBatchMaxTokens: "0"
+
+  # -- Context & memory --
+  context:
+    # Context window size
+    size: "4096"
+    # Enable context-shift when context is full (1 = enable / 0 = disabled, default: 1)
+    # shift: "1"
+    # Enable KV cache reuse for identical prompt prefixes (1 = enable / 0 = disabled, default: 1)
+    # cachePrompt: "1"
+    # Minimum number of prefix tokens to reuse from the KV cache (default: 0)
+    # cacheReuse: "0"
+    # Maximum number of idle slots whose KV cache to keep in memory (default: -1 = all)
+    # cacheIdleSlots: "-1"
+    # Unified KV cache size per slot in tokens (overrides context.size per slot)
+    # kvUnifiedPerSlot: "0"
+    # Whether to enable KV cache offloading to GPU (1 = enable / 0 = disabled, default: 1)
+    # kvOffload: "1"
+    # Use full-size SWA (Sliding Window Attention) cache (1 = enable / 0 = disabled, default: 0)
+    # swaFull: "0"
+    # Whether to enable context-state checkpoints for recompute (1 = enable / 0 = disabled, default: 0)
+    # checkpoints: "0"
+    # Minimum token spacing between context checkpoints
+    # checkpointMinSpacingNt: "0"
+    # Path to save/restore slot state (KV cache) for resume support
+    # slotSavePath: "/models/slots"
+    # RoPE frequency scaling method: none, linear, yarn (default: linear unless set by model)
+    # ropeScalingType: "linear"
+    # RoPE context scaling factor, expands context by factor N
+    # ropeScale: "1.0"
+    # RoPE base frequency for NTK-aware scaling (default: from model)
+    # ropeFreqBase: "10000"
+    # RoPE frequency scaling factor, expands context by 1/N
+    # ropeFreqScale: "1.0"
+    # YaRN: original context size of the model (default: 0 = training context)
+    # yarnOrigCtx: "0"
+    # YaRN: extrapolation mix factor (default: -1.00, 0 = full interpolation)
+    # yarnExtFactor: "-1.00"
+    # YaRN: scale sqrt(t) or attention magnitude (default: -1.00)
+    # yarnAttnFactor: "-1.00"
+    # YaRN: high correction dim or alpha (default: -1.00)
+    # yarnBetaSlow: "-1.00"
+    # YaRN: low correction dim or beta (default: -1.00)
+    # yarnBetaFast: "-1.00"
 
   # -- Fit controls
   # fit:
