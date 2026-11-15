@@ -17,7 +17,6 @@ data:
   {{- if .Values.llamacpp.mmprojAuto }}
   LLAMA_ARG_MMPROJ_AUTO: {{ .Values.llamacpp.mmprojAuto | quote }}
   {{- end }}
-  LLAMA_ARG_UI: {{ .Values.llamacpp.webui | quote }}
   LLAMA_ARG_N_GPU_LAYERS: {{ .Values.llamacpp.nGpuLayers | quote }}
   {{- if .Values.llamacpp.nCpuFfn }}
   LLAMA_ARG_N_CPU_FFN: {{ .Values.llamacpp.nCpuFfn | quote }}
@@ -258,6 +257,19 @@ data:
   # -- Inference options --
   {{- if .Values.llamacpp.kvUnified }}
   LLAMA_ARG_KV_UNIFIED: {{ .Values.llamacpp.kvUnified | quote }}
+  {{- end }}
+
+  # -- Web UI --
+  {{- if .Values.llamacpp.webui }}
+  {{- if hasKey .Values.llamacpp.webui "enabled" }}
+  LLAMA_ARG_UI: {{ .Values.llamacpp.webui.enabled | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.webui "mcpProxy" }}
+  LLAMA_ARG_UI_MCP_PROXY: {{ .Values.llamacpp.webui.mcpProxy | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.webui.staticPath }}
+  LLAMA_ARG_STATIC_PATH: {{ .Values.llamacpp.webui.staticPath | quote }}
+  {{- end }}
   {{- end }}
 
   # -- Extra arbitrary env vars --

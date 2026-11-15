@@ -171,13 +171,6 @@
           ],
           "description": "Whether to use multimodal projector file (if available), useful when using hf model"
         },
-        "webui": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Whether to enable the Web UI (1 = enable, 0 = disabled)"
-        },
         "nGpuLayers": {
           "type": [
             "string",
@@ -686,6 +679,38 @@
             "integer"
           ],
           "description": "Enable unified KV cache across sequences (1 to enable)"
+        },
+        "webui": {
+          "type": "object",
+          "description": "Web UI configuration",
+          "properties": {
+            "enabled": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to enable the Web UI (1 = enable, 0 = disabled, maps to LLAMA_ARG_UI)"
+            },
+            "uiConfig": {
+              "type": "string",
+              "description": "Inline JSON string of default Web UI preferences (maps to LLAMA_ARG_UI_CONFIG)"
+            },
+            "uiConfigFile": {
+              "type": "string",
+              "description": "Path to a JSON file of default Web UI preferences (maps to LLAMA_ARG_UI_CONFIG_FILE)"
+            },
+            "mcpProxy": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Expose an MCP proxy endpoint in the Web UI (maps to LLAMA_ARG_UI_MCP_PROXY, 1 to enable, 0 = disabled)"
+            },
+            "staticPath": {
+              "type": "string",
+              "description": "Path to serve static files from (Web UI assets, maps to LLAMA_ARG_STATIC_PATH)"
+            }
+          }
         },
         "extraEnv": {
           "type": "object",

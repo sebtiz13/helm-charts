@@ -68,8 +68,6 @@ llamacpp:
   # mmproj: "/model/mmproj-model.gguf"
   # Whether to use multimodal projector file (if available), useful when using hf model (1 = enabled / 0 = disabled, default enabled)
   # mmprojAuto: 0
-  # Whether to enable the Web UI (1 = enable / 0 = disabled)
-  webui: "0"
   # Number of GPU layers to offload (0 = CPU only)
   nGpuLayers: "0"
   # Context window size
@@ -244,6 +242,19 @@ llamacpp:
   # -- Inference options --
   # Enable unified KV cache across sequences (1 = enable / 0 = disabled)
   # kvUnified: "1"
+
+  # -- Web UI --
+  webui:
+    # Whether to enable the Web UI (1 = enable / 0 = disabled)
+    enabled: "0"
+    # Inline JSON string of default Web UI preferences
+    # uiConfig: ""
+    # Path to a JSON file of default Web UI preferences
+    # uiConfigFile: ""
+    # Expose an MCP proxy endpoint in the Web UI (1 = enable / 0 = disabled, default: 0)
+    # mcpProxy: "0"
+    # Path to serve static files from (Web UI assets)
+    # staticPath: ""
 
   # Additional arbitrary env vars to inject (key: value map)
   extraEnv: {}

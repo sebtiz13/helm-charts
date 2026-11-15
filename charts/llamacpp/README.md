@@ -64,7 +64,6 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.model` | Model path inside the container | `nil` |
 | `llamacpp.host` | Host to bind the server to | `0.0.0.0` |
 | `llamacpp.port` | Port the server listens on | `9931` |
-| `llamacpp.webui` | Whether to enable the Web UI ( `0` = disabled ) | `0` |
 | `llamacpp.nGpuLayers` | Number of GPU layers to offload (`0` = CPU only) | `0` |
 | `llamacpp.nCpuFfn` | Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of `nCpuLayers`) | `nil` |
 | `llamacpp.contextSize` | Context window size | `2048` |
@@ -181,6 +180,14 @@ curl http://127.0.0.1:8080/health
 |-----------|-------------|---------|
 | `llamacpp.embedding.enabled` | Restrict to only support embedding use case; use only with dedicated embedding models | `nil` |
 | `llamacpp.embedding.pooling` | Pooling type for embeddings, use model default if unspecified | `nil` |
+
+#### Web UI
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.webui.enabled` | Whether to enable the Web UI (`1` = enable, `0` = disabled) | `"0"` |
+| `llamacpp.webui.mcpProxy` | Expose an MCP proxy endpoint in the Web UI (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.webui.staticPath` | Path to serve static files from (Web UI assets) | `nil` |
 
 ### Common configuration
 
