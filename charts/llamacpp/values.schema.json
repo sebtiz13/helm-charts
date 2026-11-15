@@ -712,6 +712,114 @@
             }
           }
         },
+        "mcp": {
+          "type": "object",
+          "description": "MCP (Model Context Protocol) configuration",
+          "properties": {
+            "serversConfigFile": {
+              "type": "string",
+              "description": "Path to MCP servers JSON config file (maps to LLAMA_ARG_MCP_SERVERS_CONFIG)"
+            },
+            "serversJson": {
+              "type": "string",
+              "description": "Inline JSON string describing MCP servers to connect to (maps to LLAMA_ARG_MCP_SERVERS_JSON)"
+            }
+          }
+        },
+        "network": {
+          "type": "object",
+          "description": "Networking configuration",
+          "properties": {
+            "apiKeyFile": {
+              "type": "string",
+              "description": "File containing API keys for authentication (one per line, maps to LLAMA_ARG_API_KEY_FILE)"
+            },
+            "apiPrefix": {
+              "type": "string",
+              "description": "Prefix path the server serves from, without trailing slash (maps to LLAMA_ARG_API_PREFIX)"
+            },
+            "connect": {
+              "type": "string",
+              "description": "Connect to a remote llama.cpp server instead of running locally (HOST:PORT, maps to LLAMA_ARG_CONNECT)"
+            },
+            "connectCode": {
+              "type": "string",
+              "description": "Authentication code for --connect (maps to LLAMA_ARG_CONNECT_CODE)"
+            },
+            "sslCertFile": {
+              "type": "string",
+              "description": "Path to the PEM-encoded TLS certificate file (maps to LLAMA_ARG_SSL_CERT_FILE)"
+            },
+            "sslKeyFile": {
+              "type": "string",
+              "description": "Path to the PEM-encoded TLS private key file (maps to LLAMA_ARG_SSL_KEY_FILE)"
+            },
+            "corsOrigins": {
+              "type": "string",
+              "description": "Allowed CORS origins, comma-separated (default: *, maps to LLAMA_ARG_CORS_ORIGINS)"
+            },
+            "corsHeaders": {
+              "type": "string",
+              "description": "Allowed CORS headers (maps to LLAMA_ARG_CORS_HEADERS)"
+            },
+            "corsMethods": {
+              "type": "string",
+              "description": "Allowed CORS methods (maps to LLAMA_ARG_CORS_METHODS)"
+            },
+            "corsCredentials": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to allow CORS credentials (maps to LLAMA_ARG_CORS_CREDENTIALS, 1 to enable, 0 = disabled)"
+            }
+          }
+        },
+        "logging": {
+          "type": "object",
+          "description": "Logging configuration",
+          "properties": {
+            "verbosity": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Log verbosity level: -1 = error, 0 = info (default), 1 = debug, 2 = trace (maps to LLAMA_ARG_LOG_VERBOSITY)"
+            },
+            "file": {
+              "type": "string",
+              "description": "Path to write log output to a file (maps to LLAMA_ARG_LOG_FILE)"
+            },
+            "jsonl": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Output logs in JSONL format (maps to LLAMA_ARG_LOG_JSONL, 1 to enable, 0 = disabled)"
+            },
+            "colors": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Use ANSI colors in log output (maps to LLAMA_ARG_LOG_COLORS, 1 to enable, 0 = disabled)"
+            },
+            "prefix": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Add a module/function prefix to log lines (maps to LLAMA_ARG_LOG_PREFIX, 1 to enable, 0 = disabled)"
+            },
+            "timestamps": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Add timestamps to log lines (maps to LLAMA_ARG_LOG_TIMESTAMPS, 1 to enable, 0 = disabled)"
+            }
+          }
+        },
         "extraEnv": {
           "type": "object",
           "description": "Additional arbitrary env vars to inject (key: value map)",

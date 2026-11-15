@@ -62,8 +62,6 @@ curl http://127.0.0.1:8080/health
 |-----------|-------------|---------|
 | `llamacpp.hf` | Hugging Face model repository | `nil` |
 | `llamacpp.model` | Model path inside the container | `nil` |
-| `llamacpp.host` | Host to bind the server to | `0.0.0.0` |
-| `llamacpp.port` | Port the server listens on | `9931` |
 | `llamacpp.nGpuLayers` | Number of GPU layers to offload (`0` = CPU only) | `0` |
 | `llamacpp.nCpuFfn` | Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of `nCpuLayers`) | `nil` |
 | `llamacpp.contextSize` | Context window size | `2048` |
@@ -186,8 +184,43 @@ curl http://127.0.0.1:8080/health
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `llamacpp.webui.enabled` | Whether to enable the Web UI (`1` = enable, `0` = disabled) | `"0"` |
+| `llamacpp.webui.uiConfig` | Inline JSON string of default Web UI preferences | `nil` |
+| `llamacpp.webui.uiConfigFile` | Path to a JSON file of default Web UI preferences | `nil` |
 | `llamacpp.webui.mcpProxy` | Expose an MCP proxy endpoint in the Web UI (`1` = enable, `0` = disabled) | `nil` |
 | `llamacpp.webui.staticPath` | Path to serve static files from (Web UI assets) | `nil` |
+
+#### MCP (Model Context Protocol)
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.mcp.serversConfigFile` | Path to MCP servers JSON config file | `nil` |
+| `llamacpp.mcp.serversJson` | Inline JSON string describing MCP servers to connect to | `nil` |
+
+#### Networking
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.network.apiKeyFile` | File containing API keys for authentication (one per line) | `nil` |
+| `llamacpp.network.apiPrefix` | Prefix path the server serves from, without trailing slash | `nil` |
+| `llamacpp.network.connect` | Connect to a remote llama.cpp server instead of running locally (`HOST:PORT`) | `nil` |
+| `llamacpp.network.connectCode` | Authentication code for `--connect` | `nil` |
+| `llamacpp.network.sslCertFile` | Path to the PEM-encoded TLS certificate file | `nil` |
+| `llamacpp.network.sslKeyFile` | Path to the PEM-encoded TLS private key file | `nil` |
+| `llamacpp.network.corsOrigins` | Allowed CORS origins, comma-separated (default: `*`) | `nil` |
+| `llamacpp.network.corsHeaders` | Allowed CORS headers | `nil` |
+| `llamacpp.network.corsMethods` | Allowed CORS methods | `nil` |
+| `llamacpp.network.corsCredentials` | Whether to allow CORS credentials (`1` = enable, `0` = disabled) | `nil` |
+
+#### Logging
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.logging.verbosity` | Log verbosity level: `-1` = error, `0` = info (default), `1` = debug, `2` = trace | `nil` |
+| `llamacpp.logging.file` | Path to write log output to a file | `nil` |
+| `llamacpp.logging.jsonl` | Output logs in JSONL format (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.logging.colors` | Use ANSI colors in log output (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.logging.prefix` | Add a module/function prefix to log lines (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.logging.timestamps` | Add timestamps to log lines (`1` = enable, `0` = disabled) | `nil` |
 
 ### Common configuration
 

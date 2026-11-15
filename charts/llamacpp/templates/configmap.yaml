@@ -272,6 +272,72 @@ data:
   {{- end }}
   {{- end }}
 
+  # -- MCP (Model Context Protocol) --
+  {{- if .Values.llamacpp.mcp }}
+  {{- if .Values.llamacpp.mcp.serversConfigFile }}
+  LLAMA_ARG_MCP_SERVERS_CONFIG: {{ .Values.llamacpp.mcp.serversConfigFile | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.mcp.serversJson }}
+  LLAMA_ARG_MCP_SERVERS_JSON: {{ .Values.llamacpp.mcp.serversJson | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Networking --
+  {{- if .Values.llamacpp.network }}
+  {{- if .Values.llamacpp.network.apiKeyFile }}
+  LLAMA_ARG_API_KEY_FILE: {{ .Values.llamacpp.network.apiKeyFile | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.apiPrefix }}
+  LLAMA_ARG_API_PREFIX: {{ .Values.llamacpp.network.apiPrefix | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.connect }}
+  LLAMA_ARG_CONNECT: {{ .Values.llamacpp.network.connect | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.connectCode }}
+  LLAMA_ARG_CONNECT_CODE: {{ .Values.llamacpp.network.connectCode | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.sslCertFile }}
+  LLAMA_ARG_SSL_CERT_FILE: {{ .Values.llamacpp.network.sslCertFile | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.sslKeyFile }}
+  LLAMA_ARG_SSL_KEY_FILE: {{ .Values.llamacpp.network.sslKeyFile | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.corsOrigins }}
+  LLAMA_ARG_CORS_ORIGINS: {{ .Values.llamacpp.network.corsOrigins | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.corsHeaders }}
+  LLAMA_ARG_CORS_HEADERS: {{ .Values.llamacpp.network.corsHeaders | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.corsMethods }}
+  LLAMA_ARG_CORS_METHODS: {{ .Values.llamacpp.network.corsMethods | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.network "corsCredentials" }}
+  LLAMA_ARG_CORS_CREDENTIALS: {{ .Values.llamacpp.network.corsCredentials | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Logging --
+  {{- if .Values.llamacpp.logging }}
+  {{- if hasKey .Values.llamacpp.logging "verbosity" }}
+  LLAMA_ARG_LOG_VERBOSITY: {{ .Values.llamacpp.logging.verbosity | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.logging.file }}
+  LLAMA_ARG_LOG_FILE: {{ .Values.llamacpp.logging.file | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.logging "jsonl" }}
+  LLAMA_ARG_LOG_JSONL: {{ .Values.llamacpp.logging.jsonl | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.logging "colors" }}
+  LLAMA_ARG_LOG_COLORS: {{ .Values.llamacpp.logging.colors | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.logging "prefix" }}
+  LLAMA_ARG_LOG_PREFIX: {{ .Values.llamacpp.logging.prefix | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.logging "timestamps" }}
+  LLAMA_ARG_LOG_TIMESTAMPS: {{ .Values.llamacpp.logging.timestamps | quote }}
+  {{- end }}
+  {{- end }}
+
   # -- Extra arbitrary env vars --
   {{- range $key, $value := .Values.llamacpp.extraEnv }}
   {{ $key }}: {{ $value | quote }}

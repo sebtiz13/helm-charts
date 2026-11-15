@@ -256,6 +256,51 @@ llamacpp:
     # Path to serve static files from (Web UI assets)
     # staticPath: ""
 
+  # -- MCP (Model Context Protocol) --
+  # mcp:
+  #   # Path to MCP servers JSON config file
+  #   serversConfigFile: ""
+  #   # Inline JSON string describing MCP servers to connect to
+  #   serversJson: ""
+
+  # -- Networking --
+  # network:
+  #   # File containing API keys for authentication (one per line)
+  #   apiKeyFile: ""
+  #   # Prefix path the server serves from, without trailing slash
+  #   apiPrefix: ""
+  #   # Connect to a remote llama.cpp server instead of running locally (HOST:PORT)
+  #   connect: ""
+  #   # Authentication code for connect
+  #   connectCode: ""
+  #   # Path to the PEM-encoded TLS certificate file
+  #   sslCertFile: ""
+  #   # Path to the PEM-encoded TLS private key file
+  #   sslKeyFile: ""
+  #   # Allowed CORS origins, comma-separated (default: *)
+  #   corsOrigins: ""
+  #   # Allowed CORS headers
+  #   corsHeaders: ""
+  #   # Allowed CORS methods
+  #   corsMethods: ""
+  #   # Whether to allow CORS credentials (1 = enable / 0 = disabled)
+  #   corsCredentials: "0"
+
+  # -- Logging --
+  # logging:
+  #   # Log verbosity level: -1 = error, 0 = info (default), 1 = debug, 2 = trace
+  #   verbosity: "0"
+  #   # Path to write log output to a file
+  #   file: ""
+  #   # Output logs in JSONL format (1 = enable / 0 = disabled, default: 0)
+  #   jsonl: "0"
+  #   # Use ANSI colors in log output (1 = enable / 0 = disabled, default: 1)
+  #   colors: "1"
+  #   # Add a module/function prefix to log lines (1 = enable / 0 = disabled, default: 0)
+  #   prefix: "0"
+  #   # Add timestamps to log lines (1 = enable / 0 = disabled, default: 0)
+  #   timestamps: "0"
+
   # Additional arbitrary env vars to inject (key: value map)
   extraEnv: {}
 
