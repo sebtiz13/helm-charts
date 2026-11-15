@@ -30,7 +30,7 @@ helm install my-llamacpp ./charts/llamacpp
 
 ```bash
 helm install my-llamacpp sebtiz13/llamacpp \
-  --set llamacpp.model=/models/mistral-7b.gguf \
+  --set llamacpp.model.model=/models/mistral-7b.gguf \
   --set llamacpp.nGpuLayers=32 \
   --set llamacpp.contextSize=4096 \
   --set persistence.size=50Gi
@@ -60,8 +60,6 @@ curl http://127.0.0.1:8080/health
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `llamacpp.hf` | Hugging Face model repository | `nil` |
-| `llamacpp.model` | Model path inside the container | `nil` |
 | `llamacpp.nGpuLayers` | Number of GPU layers to offload (`0` = CPU only) | `0` |
 | `llamacpp.nCpuFfn` | Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of `nCpuLayers`) | `nil` |
 | `llamacpp.contextSize` | Context window size | `2048` |
@@ -85,6 +83,32 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.cacheRam` | Amount of KV cache to keep in CPU RAM in MiB | `nil` |
 | `llamacpp.kvUnified` | Enable unified KV cache across sequences (`1` to enable) | `nil` |
 | `llamacpp.extraEnv` | Additional arbitrary env vars to inject (key: value map) | `{}` |
+
+#### Model loading
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.model.hf` | Hugging Face model repository | `nil` |
+| `llamacpp.model.model` | Model path inside the container | `nil` |
+| `llamacpp.model.modelUrl` | URL to download model from (direct download, alternative to `--hf-repo`) | `nil` |
+| `llamacpp.model.hfFile` | HuggingFace model filename / glob pattern to select a specific GGUF file | `nil` |
+| `llamacpp.model.mmproj` | Path to a multimodal projector file | `nil` |
+| `llamacpp.model.mmprojUrl` | URL to download multimodal projector from | `nil` |
+| `llamacpp.model.mmprojAuto` | Whether to use multimodal projector file if available, useful when using hf model (`1` = enabled / `0` = disabled) | `nil` |
+| `llamacpp.model.overrideTensor` | Override tensor buffer type (e.g. `ATTN=CPU`) | `nil` |
+| `llamacpp.model.loadMode` | Model loading mode (`auto`, `mmap`, `direct`) | `nil` |
+| `llamacpp.model.lazyMode` | On-demand tensor reading per-layer (`auto`, `1`, `0`) | `nil` |
+| `llamacpp.model.repack` | Whether to enable weight repacking (`1` = enabled / `0` = disabled) | `nil` |
+| `llamacpp.model.modelsDir` | Directory to scan for GGUF model files (enables model listing endpoint) | `nil` |
+| `llamacpp.model.modelsMax` | Maximum number of models loaded simultaneously | `nil` |
+| `llamacpp.model.modelsMemoryMargin` | VRAM margin reserved for non-model use when auto-loading in MiB | `nil` |
+| `llamacpp.model.modelsAutoload` | Auto-load models on first request (`1` = enable / `0` = disabled) | `nil` |
+| `llamacpp.model.dockerRepo` | Docker Hub image repository used by the model router | `nil` |
+| `llamacpp.model.tags` | Model tags to attach, comma-separated (used in model listing) | `nil` |
+| `llamacpp.model.mmprojOffload` | Whether to offload the multimodal projector to GPU (`1` = enable / `0` = disabled) | `nil` |
+| `llamacpp.model.imageMaxTokens` | Maximum number of image tokens to generate per image (`0` = from model) | `nil` |
+| `llamacpp.model.imageMinTokens` | Minimum number of image tokens per image (`0` = from model) | `nil` |
+| `llamacpp.model.mtmdBatchMaxTokens` | Maximum tokens in one multimodal batch (`0` = unlimited) | `nil` |
 
 #### Fit controls
 

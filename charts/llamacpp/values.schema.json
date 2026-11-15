@@ -152,25 +152,6 @@
         "parallelSlots"
       ],
       "properties": {
-        "hf": {
-          "type": "string",
-          "description": "Hugging Face model repository"
-        },
-        "model": {
-          "type": "string",
-          "description": "Model path inside the container"
-        },
-        "mmproj": {
-          "type": "string",
-          "description": "Path to a multimodal projector file"
-        },
-        "mmprojAuto": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Whether to use multimodal projector file (if available), useful when using hf model"
-        },
         "nGpuLayers": {
           "type": [
             "string",
@@ -299,6 +280,131 @@
         "rpc": {
           "type": "string",
           "description": "Comma-separated list of RPC servers (host:port) for distributed inference"
+        },
+        "model": {
+          "type": "object",
+          "description": "Model loading options",
+          "properties": {
+            "hf": {
+              "type": "string",
+              "description": "Hugging Face model repository (maps to LLAMA_ARG_HF_REPO)"
+            },
+            "model": {
+              "type": "string",
+              "description": "Model path inside the container (maps to LLAMA_ARG_MODEL)"
+            },
+            "modelUrl": {
+              "type": "string",
+              "description": "URL to download model from (direct download, maps to LLAMA_ARG_MODEL_URL)"
+            },
+            "hfFile": {
+              "type": "string",
+              "description": "HuggingFace model filename / glob pattern to select a specific GGUF file (maps to LLAMA_ARG_HF_FILE)"
+            },
+            "mmproj": {
+              "type": "string",
+              "description": "Path to a multimodal projector file (maps to LLAMA_ARG_MMPROJ)"
+            },
+            "mmprojUrl": {
+              "type": "string",
+              "description": "URL to download multimodal projector from (maps to LLAMA_ARG_MMPROJ_URL)"
+            },
+            "mmprojAuto": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to use multimodal projector file if available, useful when using hf model (maps to LLAMA_ARG_MMPROJ_AUTO)"
+            },
+            "overrideTensor": {
+              "type": "string",
+              "description": "Override tensor buffer type, e.g. ATTN=CPU (maps to LLAMA_ARG_OVERRIDE_TENSOR)"
+            },
+            "loadMode": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "mmap",
+                "direct"
+              ],
+              "description": "Model loading mode (maps to LLAMA_ARG_LOAD_MODE, default: auto)"
+            },
+            "lazyMode": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "On-demand tensor reading per-layer: auto, 1, 0 (maps to LLAMA_ARG_LAZY_MODE, default: auto)"
+            },
+            "repack": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to enable weight repacking (maps to LLAMA_ARG_REPACK, default: enabled)"
+            },
+            "modelsDir": {
+              "type": "string",
+              "description": "Directory to scan for GGUF model files, enables model listing endpoint (maps to LLAMA_ARG_MODELS_DIR)"
+            },
+            "modelsMax": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Maximum number of models loaded simultaneously (maps to LLAMA_ARG_MODELS_MAX, default: 1)"
+            },
+            "modelsMemoryMargin": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "VRAM margin reserved for non-model use when auto-loading in MiB (maps to LLAMA_ARG_MODELS_MEMORY_MARGIN, default: 0)"
+            },
+            "modelsAutoload": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Auto-load models on first request (maps to LLAMA_ARG_MODELS_AUTOLOAD, default: enabled)"
+            },
+            "dockerRepo": {
+              "type": "string",
+              "description": "Docker Hub image repository used by the model router (maps to LLAMA_ARG_DOCKER_REPO)"
+            },
+            "tags": {
+              "type": "string",
+              "description": "Model tags to attach, comma-separated (maps to LLAMA_ARG_TAGS)"
+            },
+            "mmprojOffload": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to offload the multimodal projector to GPU (maps to LLAMA_ARG_MMPROJ_OFFLOAD, default: enabled)"
+            },
+            "imageMaxTokens": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Maximum number of image tokens to generate per image (maps to LLAMA_ARG_IMAGE_MAX_TOKENS, default: 0 = from model)"
+            },
+            "imageMinTokens": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Minimum number of image tokens per image (maps to LLAMA_ARG_IMAGE_MIN_TOKENS, default: 0 = from model)"
+            },
+            "mtmdBatchMaxTokens": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Maximum tokens in one multimodal batch (maps to LLAMA_ARG_MTMD_BATCH_MAX_TOKENS, default: 0 = unlimited)"
+            }
+          }
         },
         "fit": {
           "type": "object",

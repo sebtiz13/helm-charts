@@ -60,14 +60,6 @@ ingress:
 # llama-server configuration via environment variables.
 # These are injected into the container via a ConfigMap (envFrom).
 llamacpp:
-  # Hugging Face model repository
-  # hf: "<user>/<model>:<tag>"
-  # Model path inside the container
-  # model: "/models/model.gguf"
-  # Path to a multimodal projector file
-  # mmproj: "/model/mmproj-model.gguf"
-  # Whether to use multimodal projector file (if available), useful when using hf model (1 = enabled / 0 = disabled, default enabled)
-  # mmprojAuto: 0
   # Number of GPU layers to offload (0 = CPU only)
   nGpuLayers: "0"
   # Context window size
@@ -108,6 +100,51 @@ llamacpp:
   # rpc: "192.168.1.10:50052,192.168.1.11:50052"
   # Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of nCpuLayers)
   # nCpuFfn: "10"
+
+  # -- Model loading --
+  # model:
+  #   # Hugging Face model repository
+  #   # hf: "<user>/<model>:<tag>"
+  #   # Model path inside the container
+  #   # model: "/models/model.gguf"
+  #   # URL to download model from (direct download, alternative to --hf-repo)
+  #   # modelUrl: "https://example.com/model.gguf"
+  #   # HuggingFace model filename / glob pattern to select a specific GGUF file
+  #   # hfFile: "*.gguf"
+  #   # Path to a multimodal projector file
+  #   # mmproj: "/models/mmproj-model.gguf"
+  #   # URL to download multimodal projector from
+  #   # mmprojUrl: "https://example.com/mmproj.gguf"
+  #   # Whether to use multimodal projector file (if available), useful when using hf model (1 = enabled / 0 = disabled, default enabled)
+  #   # mmprojAuto: 0
+  #   # Override tensor buffer type (e.g. ATTN=CPU)
+  #   # overrideTensor: "ATTN=CPU"
+  #   # Model loading mode: auto, mmap, direct (default: auto)
+  #   # loadMode: "auto"
+  #   # On-demand tensor reading per-layer: auto, 1, 0 (default: auto)
+  #   # lazyMode: "auto"
+  #   # Whether to enable weight repacking (1 = enabled / 0 = disabled, default: 1)
+  #   # repack: "1"
+  #   # Directory to scan for GGUF model files (enables model listing endpoint)
+  #   # modelsDir: "/models"
+  #   # Maximum number of models loaded simultaneously (default: 1)
+  #   # modelsMax: "1"
+  #   # VRAM margin reserved for non-model use when auto-loading in MiB (default: 0)
+  #   # modelsMemoryMargin: "0"
+  #   # Auto-load models on first request (1 = enable / 0 = disabled, default: 1)
+  #   # modelsAutoload: "1"
+  #   # Docker Hub image repository used by the model router
+  #   # dockerRepo: ""
+  #   # Model tags to attach, comma-separated (used in model listing)
+  #   # tags: ""
+  #   # Whether to offload the multimodal projector to GPU (1 = enable / 0 = disabled, default: 1)
+  #   # mmprojOffload: "1"
+  #   # Maximum number of image tokens to generate per image (default: 0 = from model)
+  #   # imageMaxTokens: "0"
+  #   # Minimum number of image tokens per image (default: 0 = from model)
+  #   # imageMinTokens: "0"
+  #   # Maximum tokens in one multimodal batch (default: 0 = unlimited)
+  #   # mtmdBatchMaxTokens: "0"
 
   # -- Fit controls
   # fit:

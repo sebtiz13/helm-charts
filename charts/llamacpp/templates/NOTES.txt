@@ -21,9 +21,9 @@
 2. Verify the server is healthy:
   curl http://127.0.0.1:{{ .Values.service.port }}/health
 
-{{- if .Values.llamacpp.model }}
+{{- if and .Values.llamacpp.model .Values.llamacpp.model.model }}
 3. Before running inference, ensure a model file is placed at:
-  {{ .Values.llamacpp.model }}
+  {{ .Values.llamacpp.model.model }}
 
    You can copy a model into the PVC using:
   kubectl cp /path/to/model.gguf {{ .Release.Namespace }}/$(kubectl get pod -l app.kubernetes.io/instance={{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath="{.items[0].metadata.name}"):/models/model.gguf

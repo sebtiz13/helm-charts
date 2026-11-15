@@ -5,18 +5,6 @@ metadata:
   labels:
     {{- include "llamacpp.labels" . | nindent 4 }}
 data:
-  {{- if .Values.llamacpp.hf }}
-  LLAMA_ARG_HF_REPO: {{ .Values.llamacpp.hf | quote }}
-  {{- end }}
-  {{- if .Values.llamacpp.model }}
-  LLAMA_ARG_MODEL: {{ .Values.llamacpp.model | quote }}
-  {{- end }}
-  {{- if .Values.llamacpp.mmproj }}
-  LLAMA_ARG_MMPROJ: {{ .Values.llamacpp.mmproj | quote }}
-  {{- end }}
-  {{- if .Values.llamacpp.mmprojAuto }}
-  LLAMA_ARG_MMPROJ_AUTO: {{ .Values.llamacpp.mmprojAuto | quote }}
-  {{- end }}
   LLAMA_ARG_N_GPU_LAYERS: {{ .Values.llamacpp.nGpuLayers | quote }}
   {{- if .Values.llamacpp.nCpuFfn }}
   LLAMA_ARG_N_CPU_FFN: {{ .Values.llamacpp.nCpuFfn | quote }}
@@ -69,6 +57,77 @@ data:
   {{- end }}
   {{- if .Values.llamacpp.rpc }}
   LLAMA_ARG_RPC: {{ .Values.llamacpp.rpc | quote }}
+  {{- end }}
+
+  # -- Model loading --
+  {{- if .Values.llamacpp.model }}
+  {{- if .Values.llamacpp.model.hf }}
+  LLAMA_ARG_HF_REPO: {{ .Values.llamacpp.model.hf | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.model }}
+  LLAMA_ARG_MODEL: {{ .Values.llamacpp.model.model | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.modelUrl }}
+  LLAMA_ARG_MODEL_URL: {{ .Values.llamacpp.model.modelUrl | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.hfFile }}
+  LLAMA_ARG_HF_FILE: {{ .Values.llamacpp.model.hfFile | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.mmproj }}
+  LLAMA_ARG_MMPROJ: {{ .Values.llamacpp.model.mmproj | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.mmprojUrl }}
+  LLAMA_ARG_MMPROJ_URL: {{ .Values.llamacpp.model.mmprojUrl | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.mmprojAuto }}
+  LLAMA_ARG_MMPROJ_AUTO: {{ .Values.llamacpp.model.mmprojAuto | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.overrideTensor }}
+  LLAMA_ARG_OVERRIDE_TENSOR: {{ .Values.llamacpp.model.overrideTensor | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.loadMode }}
+  LLAMA_ARG_LOAD_MODE: {{ .Values.llamacpp.model.loadMode | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.lazyMode }}
+  LLAMA_ARG_LAZY_MODE: {{ .Values.llamacpp.model.lazyMode | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.repack }}
+  LLAMA_ARG_REPACK: {{ .Values.llamacpp.model.repack | quote }}
+  {{- end }}
+
+  # Multi-model (router mode)
+  {{- if .Values.llamacpp.model.modelsDir }}
+  LLAMA_ARG_MODELS_DIR: {{ .Values.llamacpp.model.modelsDir | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.modelsMax }}
+  LLAMA_ARG_MODELS_MAX: {{ .Values.llamacpp.model.modelsMax | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.modelsMemoryMargin }}
+  LLAMA_ARG_MODELS_MEMORY_MARGIN: {{ .Values.llamacpp.model.modelsMemoryMargin | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.modelsAutoload }}
+  LLAMA_ARG_MODELS_AUTOLOAD: {{ .Values.llamacpp.model.modelsAutoload | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.dockerRepo }}
+  LLAMA_ARG_DOCKER_REPO: {{ .Values.llamacpp.model.dockerRepo | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.tags }}
+  LLAMA_ARG_TAGS: {{ .Values.llamacpp.model.tags | quote }}
+  {{- end }}
+
+  # Multimodal / vision
+  {{- if .Values.llamacpp.model.mmprojOffload }}
+  LLAMA_ARG_MMPROJ_OFFLOAD: {{ .Values.llamacpp.model.mmprojOffload | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.imageMaxTokens }}
+  LLAMA_ARG_IMAGE_MAX_TOKENS: {{ .Values.llamacpp.model.imageMaxTokens | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.imageMinTokens }}
+  LLAMA_ARG_IMAGE_MIN_TOKENS: {{ .Values.llamacpp.model.imageMinTokens | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.model.mtmdBatchMaxTokens }}
+  LLAMA_ARG_MTMD_BATCH_MAX_TOKENS: {{ .Values.llamacpp.model.mtmdBatchMaxTokens | quote }}
+  {{- end }}
   {{- end }}
 
   {{- if .Values.llamacpp.fit }}

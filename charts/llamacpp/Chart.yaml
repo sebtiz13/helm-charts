@@ -2,7 +2,7 @@ apiVersion: v2
 name: llamacpp
 description: A Helm chart for llama.cpp server (llama-server) deployment
 type: application
-version: 0.6.0
+version: 0.7.0
 appVersion: "b12191"
 
 annotations:
