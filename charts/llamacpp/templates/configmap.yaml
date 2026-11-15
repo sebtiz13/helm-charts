@@ -19,8 +19,41 @@ data:
   {{- end }}
   LLAMA_ARG_UI: {{ .Values.llamacpp.webui | quote }}
   LLAMA_ARG_N_GPU_LAYERS: {{ .Values.llamacpp.nGpuLayers | quote }}
+  {{- if .Values.llamacpp.nCpuFfn }}
+  LLAMA_ARG_N_CPU_FFN: {{ .Values.llamacpp.nCpuFfn | quote }}
+  {{- end }}
   LLAMA_ARG_CTX_SIZE: {{ .Values.llamacpp.contextSize | quote }}
   LLAMA_ARG_N_PARALLEL: {{ .Values.llamacpp.parallelSlots | quote }}
+  {{- if .Values.llamacpp.alias }}
+  LLAMA_ARG_ALIAS: {{ .Values.llamacpp.alias | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.timeout }}
+  LLAMA_ARG_TIMEOUT: {{ .Values.llamacpp.timeout | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.threadsHttp }}
+  LLAMA_ARG_THREADS_HTTP: {{ .Values.llamacpp.threadsHttp | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.reusePort }}
+  LLAMA_ARG_REUSE_PORT: {{ .Values.llamacpp.reusePort | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.noHost }}
+  LLAMA_ARG_NO_HOST: {{ .Values.llamacpp.noHost | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.ssePingInterval }}
+  LLAMA_ARG_SSE_PING_INTERVAL: {{ .Values.llamacpp.ssePingInterval | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.nPredict }}
+  LLAMA_ARG_N_PREDICT: {{ .Values.llamacpp.nPredict | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.reranking }}
+  LLAMA_ARG_RERANKING: {{ .Values.llamacpp.reranking | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.perf }}
+  LLAMA_ARG_PERF: {{ .Values.llamacpp.perf | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.offline }}
+  LLAMA_ARG_OFFLINE: {{ .Values.llamacpp.offline | quote }}
+  {{- end }}
 
   # -- Threading & GPU --
   {{- if .Values.llamacpp.threads }}
@@ -29,6 +62,15 @@ data:
   {{- if .Values.llamacpp.mainGpu }}
   LLAMA_ARG_MAIN_GPU: {{ .Values.llamacpp.mainGpu | quote }}
   {{- end }}
+  {{- if .Values.llamacpp.threadsBatch }}
+  LLAMA_ARG_THREADS_BATCH: {{ .Values.llamacpp.threadsBatch | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.numa }}
+  LLAMA_ARG_NUMA: {{ .Values.llamacpp.numa | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.rpc }}
+  LLAMA_ARG_RPC: {{ .Values.llamacpp.rpc | quote }}
+  {{- end }}
 
   {{- if .Values.llamacpp.split }}
   {{- if .Values.llamacpp.split.mode }}
@@ -36,6 +78,9 @@ data:
   {{- end }}
   {{- if .Values.llamacpp.split.tensor }}
   LLAMA_ARG_TENSOR_SPLIT: {{ .Values.llamacpp.split.tensor | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.split.device }}
+  LLAMA_ARG_DEVICE: {{ .Values.llamacpp.split.device | quote }}
   {{- end }}
   {{- end }}
 
@@ -89,11 +134,47 @@ data:
   {{- if .Values.llamacpp.speculativeDraft.type }}
   LLAMA_ARG_SPEC_TYPE: {{ .Values.llamacpp.speculativeDraft.type | quote }}
   {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftModel }}
+  LLAMA_ARG_SPEC_DRAFT_MODEL: {{ .Values.llamacpp.speculativeDraft.draftModel | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftHfRepo }}
+  LLAMA_ARG_SPEC_DRAFT_HF_REPO: {{ .Values.llamacpp.speculativeDraft.draftHfRepo | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftNgl }}
+  LLAMA_ARG_N_GPU_LAYERS_DRAFT: {{ .Values.llamacpp.speculativeDraft.draftNgl | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftNMin }}
+  LLAMA_ARG_SPEC_DRAFT_N_MIN: {{ .Values.llamacpp.speculativeDraft.draftNMin | quote }}
+  {{- end }}
   {{- if .Values.llamacpp.speculativeDraft.draftNMax }}
   LLAMA_ARG_SPEC_DRAFT_N_MAX: {{ .Values.llamacpp.speculativeDraft.draftNMax | quote }}
   {{- end }}
   {{- if .Values.llamacpp.speculativeDraft.draftPMin }}
   LLAMA_ARG_SPEC_DRAFT_P_MIN: {{ .Values.llamacpp.speculativeDraft.draftPMin | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftNUbatch }}
+  LLAMA_ARG_SPEC_DRAFT_N_UBATCH: {{ .Values.llamacpp.speculativeDraft.draftNUbatch | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftPSplit }}
+  LLAMA_ARG_SPEC_DRAFT_P_SPLIT: {{ .Values.llamacpp.speculativeDraft.draftPSplit | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftSampling }}
+  LLAMA_ARG_SPEC_DRAFT_SAMPLING: {{ .Values.llamacpp.speculativeDraft.draftSampling | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftBackendSampling }}
+  LLAMA_ARG_SPEC_DRAFT_BACKEND_SAMPLING: {{ .Values.llamacpp.speculativeDraft.draftBackendSampling | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftCpuMoe }}
+  LLAMA_ARG_SPEC_DRAFT_CPU_MOE: {{ .Values.llamacpp.speculativeDraft.draftCpuMoe | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.draftNCpuMoe }}
+  LLAMA_ARG_SPEC_DRAFT_N_CPU_MOE: {{ .Values.llamacpp.speculativeDraft.draftNCpuMoe | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.synthLen }}
+  LLAMA_ARG_SPEC_SYNTH_LEN: {{ .Values.llamacpp.speculativeDraft.synthLen | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.speculativeDraft.synthRates }}
+  LLAMA_ARG_SPEC_SYNTH_RATES: {{ .Values.llamacpp.speculativeDraft.synthRates | quote }}
   {{- end }}
   {{- if .Values.llamacpp.speculativeDraft.cacheType }}
   {{- if .Values.llamacpp.speculativeDraft.cacheType.key }}

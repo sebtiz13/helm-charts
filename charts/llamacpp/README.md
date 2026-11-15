@@ -66,22 +66,36 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.port` | Port the server listens on | `9931` |
 | `llamacpp.webui` | Whether to enable the Web UI ( `0` = disabled ) | `0` |
 | `llamacpp.nGpuLayers` | Number of GPU layers to offload (`0` = CPU only) | `0` |
+| `llamacpp.nCpuFfn` | Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of `nCpuLayers`) | `nil` |
 | `llamacpp.contextSize` | Context window size | `2048` |
 | `llamacpp.parallelSlots` | Number of parallel request slots | `1` |
+| `llamacpp.alias` | Model name alias exposed in the API (comma-separated) | `nil` |
+| `llamacpp.timeout` | Server read/write timeout in seconds | `nil` |
+| `llamacpp.threadsHttp` | Number of threads used to process HTTP requests | `nil` |
+| `llamacpp.reusePort` | Enable SO_REUSEPORT so multiple instances can bind the same port (`1` to enable) | `nil` |
+| `llamacpp.noHost` | Bypass host buffer, allowing extra buffers to be used (`1` to enable) | `nil` |
+| `llamacpp.ssePingInterval` | Interval between SSE keep-alive pings in seconds | `nil` |
+| `llamacpp.nPredict` | Number of tokens to predict (`-1` = infinity) | `nil` |
+| `llamacpp.reranking` | Enable the `/rerank` endpoint for cross-encoder reranking (`1` to enable) | `nil` |
+| `llamacpp.perf` | Enable internal libllama performance timings (`1` to enable) | `nil` |
+| `llamacpp.offline` | Disable any network access: HF downloads, model router, etc. (`1` to enable) | `nil` |
 | `llamacpp.threads` | Number of CPU threads to use for generation | `nil` |
 | `llamacpp.mainGpu` | Index of the GPU to use as main GPU | `nil` |
+| `llamacpp.threadsBatch` | Number of threads for batch / prompt processing (default: same as threads) | `nil` |
+| `llamacpp.numa` | NUMA optimization strategy (`distribute`, `isolate`, `numactl`) | `nil` |
+| `llamacpp.rpc` | Comma-separated list of RPC servers (`host:port`) for distributed inference | `nil` |
 | `llamacpp.flashAttn` | Enable flash attention (`on` to enable) | `nil` |
 | `llamacpp.cacheRam` | Amount of KV cache to keep in CPU RAM in MiB | `nil` |
 | `llamacpp.kvUnified` | Enable unified KV cache across sequences (`1` to enable) | `nil` |
 | `llamacpp.extraEnv` | Additional arbitrary env vars to inject (key: value map) | `{}` |
 
-
 #### Split model
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `llamacpp.split.mode` | How to split the model across GPUs (`none`, `layer`, `row`) | `nil` |
+| `llamacpp.split.mode` | How to split the model across GPUs (`none`, `layer`, `row`, `tensor`) | `nil` |
 | `llamacpp.split.tensor` | Fraction of the model to offload to each GPU (comma-separated) | `nil` |
+| `llamacpp.split.device` | Comma-separated list of GPU devices to use for offloading | `nil` |
 
 #### MoE (Mixture of Experts)
 
@@ -113,8 +127,22 @@ curl http://127.0.0.1:8080/health
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `llamacpp.speculativeDraft.type` | Speculative decoding type (e.g. `draft-mtp`) | `nil` |
+| `llamacpp.speculativeDraft.draftModel` | Path to the draft model for speculative decoding | `nil` |
+| `llamacpp.speculativeDraft.draftHfRepo` | HuggingFace repo for the draft model (`USER/MODEL[:Q]`) | `nil` |
+| `llamacpp.speculativeDraft.draftNgl` | Number of draft model layers to store in VRAM | `nil` |
+| `llamacpp.speculativeDraft.draftNMin` | Minimum number of draft tokens to use | `nil` |
 | `llamacpp.speculativeDraft.draftNMax` | Maximum number of draft tokens to generate | `nil` |
 | `llamacpp.speculativeDraft.draftPMin` | Minimum draft acceptance probability | `nil` |
+| `llamacpp.speculativeDraft.draftNUbatch` | Physical max batch size for the draft context | `nil` |
+| `llamacpp.speculativeDraft.draftPSplit` | Speculative decoding split probability | `nil` |
+| `llamacpp.speculativeDraft.draftSampling` | How the draft is sampled (`greedy`, `probabilistic`) | `nil` |
+| `llamacpp.speculativeDraft.draftBackendSampling` | Offload draft token sampling to the backend (`1` to enable) | `nil` |
+| `llamacpp.speculativeDraft.draftCpuMoe` | Keep all MoE weights in CPU for the draft model (`1` to enable) | `nil` |
+| `llamacpp.speculativeDraft.draftNCpuMoe` | Keep MoE weights of first N layers in CPU for the draft model | `nil` |
+| `llamacpp.speculativeDraft.synthLen` | Target mean synthetic acceptance length (benchmarking only) | `nil` |
+| `llamacpp.speculativeDraft.synthRates` | Per-position synthetic acceptance probabilities (benchmarking only) | `nil` |
+| `llamacpp.speculativeDraft.cacheType.key` | KV cache quantization type for draft model keys | `nil` |
+| `llamacpp.speculativeDraft.cacheType.value` | KV cache quantization type for draft model values | `nil` |
 
 #### Sampling
 

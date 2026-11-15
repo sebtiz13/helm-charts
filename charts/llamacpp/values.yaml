@@ -76,11 +76,40 @@ llamacpp:
   contextSize: "4096"
   # Number of parallel request slots
   parallelSlots: "1"
+  # Model name alias exposed in the API (comma-separated)
+  # alias: "gpt-4,my-model"
+  # Server read/write timeout in seconds (default: 600)
+  # timeout: "600"
+  # Number of threads used to process HTTP requests (default: -1)
+  # threadsHttp: "-1"
+  # Enable SO_REUSEPORT so multiple instances can bind the same port (1 = enable / 0 = disabled)
+  # reusePort: "0"
+  # Bypass host buffer, allowing extra buffers to be used (1 = enable / 0 = disabled)
+  # noHost: "0"
+  # Interval between SSE keep-alive pings in seconds (default: 15)
+  # ssePingInterval: "15"
+  # Number of tokens to predict (default: -1, -1 = infinity)
+  # nPredict: "-1"
+  # Enable the /rerank endpoint for cross-encoder reranking (1 = enable / 0 = disabled)
+  # reranking: "0"
+  # Enable internal libllama performance timings (1 = enable / 0 = disabled)
+  # perf: "0"
+  # Disable any network access: HF downloads, model router, etc. (1 = enable / 0 = disabled)
+  # offline: "0"
+
   # -- Threading & GPU --
   # Number of CPU threads to use for generation
   # threads: "2"
   # Index of the GPU to use as main GPU for tensor operations
   # mainGpu: "0"
+  # Number of threads for batch / prompt processing (default: same as threads)
+  # threadsBatch: "4"
+  # NUMA optimization strategy: distribute, isolate, numactl (default: disabled)
+  # numa: distribute
+  # Comma-separated list of RPC servers (host:port) for distributed inference
+  # rpc: "192.168.1.10:50052,192.168.1.11:50052"
+  # Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of nCpuLayers)
+  # nCpuFfn: "10"
 
   # How to split the model across multiple GPUs
   # split:
@@ -92,6 +121,8 @@ llamacpp:
   #   mode: layer
   #   # Fraction of the model to offload to each GPU (comma-separated, optional)
   #   tensor: "2.1,1"
+  #   # Comma-separated list of GPU devices to use for offloading
+  #   device: "0,1"
 
   # -- MoE (Mixture of Experts) --
   # Group of settings for Mixture of Experts models (e.g. DeepSeek, Qwen MoE)
@@ -129,10 +160,34 @@ llamacpp:
   # speculativeDraft:
   #   # Speculative decoding type, e.g. draft-mtp
   #   type: draft-mtp
+  #   # Path to the draft model for speculative decoding
+  #   draftModel: ""
+  #   # HuggingFace repo for the draft model (e.g. USER/MODEL[:Q])
+  #   draftHfRepo: ""
+  #   # Number of draft model layers to store in VRAM (default: auto)
+  #   draftNgl: "auto"
+  #   # Minimum number of draft tokens to use (default: 0)
+  #   draftNMin: "0"
   #   # Maximum number of draft tokens to generate
   #   draftNMax: "4"
   #   # Minimum draft acceptance probability
   #   draftPMin: "0.60"
+  #   # Physical max batch size for the draft context (default: 0 = same as --ubatch)
+  #   draftNUbatch: "0"
+  #   # Speculative decoding split probability (default: 0.10)
+  #   draftPSplit: "0.10"
+  #   # How the draft is sampled: greedy, probabilistic (default: greedy)
+  #   draftSampling: "greedy"
+  #   # Offload draft token sampling to the backend (1 = enable / 0 = disabled, default: 1)
+  #   draftBackendSampling: "1"
+  #   # Keep all MoE weights in CPU for the draft model (1 = enable / 0 = disabled)
+  #   draftCpuMoe: "0"
+  #   # Keep MoE weights of first N layers in CPU for the draft model
+  #   draftNCpuMoe: "0"
+  #   # Target mean synthetic acceptance length (benchmarking only)
+  #   synthLen: "0"
+  #   # Per-position synthetic acceptance probabilities, comma-separated (benchmarking only)
+  #   synthRates: ""
   #   cacheType:
   #     key: "q8_0"
   #     value: "q8_0"

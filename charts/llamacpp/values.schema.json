@@ -186,6 +186,13 @@
           ],
           "description": "Number of GPU layers to offload (0 = CPU only)"
         },
+        "nCpuFfn": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of nCpuLayers)"
+        },
         "contextSize": {
           "type": [
             "string",
@@ -200,6 +207,73 @@
           ],
           "description": "Number of parallel request slots"
         },
+        "alias": {
+          "type": "string",
+          "description": "Model name alias exposed in the API (comma-separated, maps to LLAMA_ARG_ALIAS)"
+        },
+        "timeout": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Server read/write timeout in seconds (maps to LLAMA_ARG_TIMEOUT, default: 600)"
+        },
+        "threadsHttp": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Number of threads used to process HTTP requests (maps to LLAMA_ARG_THREADS_HTTP, default: -1)"
+        },
+        "reusePort": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Enable SO_REUSEPORT so multiple instances can bind the same port (maps to LLAMA_ARG_REUSE_PORT, 1 to enable)"
+        },
+        "noHost": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Bypass host buffer, allowing extra buffers to be used (maps to LLAMA_ARG_NO_HOST, 1 to enable)"
+        },
+        "ssePingInterval": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Interval between SSE keep-alive pings in seconds (maps to LLAMA_ARG_SSE_PING_INTERVAL, default: 15)"
+        },
+        "nPredict": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Number of tokens to predict (maps to LLAMA_ARG_N_PREDICT, default: -1, -1 = infinity)"
+        },
+        "reranking": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Enable the /rerank endpoint for cross-encoder reranking (maps to LLAMA_ARG_RERANKING, 1 to enable)"
+        },
+        "perf": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Enable internal libllama performance timings (maps to LLAMA_ARG_PERF, 1 to enable)"
+        },
+        "offline": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Disable any network access such as HF downloads or model router (maps to LLAMA_ARG_OFFLINE, 1 to enable)"
+        },
         "threads": {
           "type": [
             "string",
@@ -213,6 +287,26 @@
             "integer"
           ],
           "description": "Index of the GPU to use as main GPU"
+        },
+        "threadsBatch": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "description": "Number of threads for batch / prompt processing (default: same as threads)"
+        },
+        "numa": {
+          "type": "string",
+          "enum": [
+            "distribute",
+            "isolate",
+            "numactl"
+          ],
+          "description": "NUMA optimization strategy: distribute, isolate, numactl"
+        },
+        "rpc": {
+          "type": "string",
+          "description": "Comma-separated list of RPC servers (host:port) for distributed inference"
         },
         "split": {
           "type": "object",
@@ -231,6 +325,10 @@
             "tensor": {
               "type": "string",
               "description": "Fraction of the model to offload to each GPU (comma-separated, e.g. '2.1,1')"
+            },
+            "device": {
+              "type": "string",
+              "description": "Comma-separated list of GPU devices to use for offloading"
             }
           }
         },
@@ -299,6 +397,28 @@
               "type": "string",
               "description": "Speculative decoding type (e.g. draft-mtp)"
             },
+            "draftModel": {
+              "type": "string",
+              "description": "Path to the draft model for speculative decoding"
+            },
+            "draftHfRepo": {
+              "type": "string",
+              "description": "HuggingFace repo for the draft model (e.g. USER/MODEL[:Q])"
+            },
+            "draftNgl": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Number of draft model layers to store in VRAM (default: auto)"
+            },
+            "draftNMin": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Minimum number of draft tokens to use (default: 0)"
+            },
             "draftNMax": {
               "type": [
                 "string",
@@ -309,9 +429,63 @@
             "draftPMin": {
               "type": [
                 "string",
-                "integer"
+                "number"
               ],
               "description": "Minimum draft acceptance probability"
+            },
+            "draftNUbatch": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Physical max batch size for the draft context (default: 0 = same as --ubatch)"
+            },
+            "draftPSplit": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "Speculative decoding split probability (default: 0.10)"
+            },
+            "draftSampling": {
+              "type": "string",
+              "enum": [
+                "greedy",
+                "probabilistic"
+              ],
+              "description": "How the draft is sampled (default: greedy)"
+            },
+            "draftBackendSampling": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Offload draft token sampling to the backend (1 = enable, 0 = disabled, default: 1)"
+            },
+            "draftCpuMoe": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Keep all MoE weights in CPU for the draft model (1 = enable, 0 = disabled)"
+            },
+            "draftNCpuMoe": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Keep MoE weights of first N layers in CPU for the draft model"
+            },
+            "synthLen": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Target mean synthetic acceptance length (benchmarking only)"
+            },
+            "synthRates": {
+              "type": "string",
+              "description": "Per-position synthetic acceptance probabilities, comma-separated (benchmarking only)"
             },
             "cacheType": {
               "type": "object",
