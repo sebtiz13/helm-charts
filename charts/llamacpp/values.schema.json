@@ -148,7 +148,6 @@
     "llamacpp": {
       "type": "object",
       "required": [
-        "nGpuLayers",
         "contextSize",
         "parallelSlots"
       ],
@@ -307,6 +306,34 @@
         "rpc": {
           "type": "string",
           "description": "Comma-separated list of RPC servers (host:port) for distributed inference"
+        },
+        "fit": {
+          "type": "object",
+          "description": "Control of fit in memory device",
+          "properties": {
+            "enabled": {
+              "type": "string",
+              "enum": [
+                "on",
+                "off"
+              ],
+              "description": "Auto-fit model to available VRAM (on or off, default: off)"
+            },
+            "fitCtx": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Target context size when using fit (default: 0)"
+            },
+            "fitTarget": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "Target VRAM usage ratio when using fit (default: 0.90)"
+            }
+          }
         },
         "split": {
           "type": "object",

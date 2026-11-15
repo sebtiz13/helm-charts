@@ -111,6 +111,15 @@ llamacpp:
   # Keep dense FFN weights of the first N layers in the CPU (non-MoE counterpart of nCpuLayers)
   # nCpuFfn: "10"
 
+  # -- Fit controls
+  # fit:
+  #   # Auto-fit model to available VRAM: "on" or "off" (default: "off")
+  #   # enabled: "on"
+  #   # Target context size when using fit (default: "0")
+  #   # fitCtx: "4096"
+  #   # Target VRAM usage ratio when using fit (default: "0.90")
+  #   # fitTarget: "0.90"
+
   # How to split the model across multiple GPUs
   # split:
   #   # Mode of split the model across GPUs, one of:

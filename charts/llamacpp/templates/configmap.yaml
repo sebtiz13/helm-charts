@@ -72,6 +72,18 @@ data:
   LLAMA_ARG_RPC: {{ .Values.llamacpp.rpc | quote }}
   {{- end }}
 
+  {{- if .Values.llamacpp.fit }}
+  {{- if .Values.llamacpp.fit.enabled }}
+  LLAMA_ARG_FIT: {{ .Values.llamacpp.fit.enabled | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.fit.fitCtx }}
+  LLAMA_ARG_FIT_CTX: {{ .Values.llamacpp.split.fitCtx | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.fit.fitTarget }}
+  LLAMA_ARG_FIT_TARGET: {{ .Values.llamacpp.fit.fitTarget | quote }}
+  {{- end }}
+  {{- end }}
+
   {{- if .Values.llamacpp.split }}
   {{- if .Values.llamacpp.split.mode }}
   LLAMA_ARG_SPLIT_MODE: {{ .Values.llamacpp.split.mode | quote }}

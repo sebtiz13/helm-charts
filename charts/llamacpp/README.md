@@ -89,6 +89,14 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.kvUnified` | Enable unified KV cache across sequences (`1` to enable) | `nil` |
 | `llamacpp.extraEnv` | Additional arbitrary env vars to inject (key: value map) | `{}` |
 
+#### Fit controls
+
+| Parameter                | Description                                              | Default |
+| ------------------------ | -------------------------------------------------------- | ------- |
+| `llamacpp.fit.enabled`   | Auto-fit model to available VRAM (`on`, `off`)           | `nil`   |
+| `llamacpp.fit.fitCtx`    | Target context size when using `--fit`                   | `nil`   |
+| `llamacpp.fit.fitTarget` | Target VRAM usage ratio when using `--fit` (e.g. `0.90`) | `nil`   |
+
 #### Split model
 
 | Parameter | Description | Default |
