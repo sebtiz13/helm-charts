@@ -19,26 +19,11 @@ data:
   {{- if .Values.llamacpp.threadsHttp }}
   LLAMA_ARG_THREADS_HTTP: {{ .Values.llamacpp.threadsHttp | quote }}
   {{- end }}
-  {{- if .Values.llamacpp.reusePort }}
-  LLAMA_ARG_REUSE_PORT: {{ .Values.llamacpp.reusePort | quote }}
-  {{- end }}
-  {{- if .Values.llamacpp.noHost }}
-  LLAMA_ARG_NO_HOST: {{ .Values.llamacpp.noHost | quote }}
-  {{- end }}
-  {{- if .Values.llamacpp.ssePingInterval }}
-  LLAMA_ARG_SSE_PING_INTERVAL: {{ .Values.llamacpp.ssePingInterval | quote }}
-  {{- end }}
   {{- if .Values.llamacpp.nPredict }}
   LLAMA_ARG_N_PREDICT: {{ .Values.llamacpp.nPredict | quote }}
   {{- end }}
-  {{- if .Values.llamacpp.reranking }}
-  LLAMA_ARG_RERANKING: {{ .Values.llamacpp.reranking | quote }}
-  {{- end }}
   {{- if .Values.llamacpp.perf }}
   LLAMA_ARG_PERF: {{ .Values.llamacpp.perf | quote }}
-  {{- end }}
-  {{- if .Values.llamacpp.offline }}
-  LLAMA_ARG_OFFLINE: {{ .Values.llamacpp.offline | quote }}
   {{- end }}
 
   # -- Threading & GPU --
@@ -436,6 +421,18 @@ data:
   {{- if hasKey .Values.llamacpp.network "corsCredentials" }}
   LLAMA_ARG_CORS_CREDENTIALS: {{ .Values.llamacpp.network.corsCredentials | quote }}
   {{- end }}
+  {{- if .Values.llamacpp.network.reusePort }}
+  LLAMA_ARG_REUSE_PORT: {{ .Values.llamacpp.network.reusePort | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.noHost }}
+  LLAMA_ARG_NO_HOST: {{ .Values.llamacpp.network.noHost | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.ssePingInterval }}
+  LLAMA_ARG_SSE_PING_INTERVAL: {{ .Values.llamacpp.network.ssePingInterval | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.network.offline }}
+  LLAMA_ARG_OFFLINE: {{ .Values.llamacpp.network.offline | quote }}
+  {{- end }}
   {{- end }}
 
   # -- Logging --
@@ -457,6 +454,66 @@ data:
   {{- end }}
   {{- if hasKey .Values.llamacpp.logging "timestamps" }}
   LLAMA_ARG_LOG_TIMESTAMPS: {{ .Values.llamacpp.logging.timestamps | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Endpoints --
+  {{- if .Values.llamacpp.endpoints }}
+  {{- if hasKey .Values.llamacpp.endpoints "metrics" }}
+  LLAMA_ARG_ENDPOINT_METRICS: {{ .Values.llamacpp.endpoints.metrics | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.endpoints "slots" }}
+  LLAMA_ARG_ENDPOINT_SLOTS: {{ .Values.llamacpp.endpoints.slots | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.endpoints "props" }}
+  LLAMA_ARG_ENDPOINT_PROPS: {{ .Values.llamacpp.endpoints.props | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.endpoints.reranking }}
+  LLAMA_ARG_RERANKING: {{ .Values.llamacpp.endpoints.reranking | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Chat template & tool use --
+  {{- if .Values.llamacpp.tools }}
+  {{- if .Values.llamacpp.tools.chatTemplate }}
+  LLAMA_ARG_CHAT_TEMPLATE: {{ .Values.llamacpp.tools.chatTemplate | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.tools.chatTemplateFile }}
+  LLAMA_ARG_CHAT_TEMPLATE_FILE: {{ .Values.llamacpp.tools.chatTemplateFile | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.tools.chatTemplateKwargs }}
+  LLAMA_ARG_CHAT_TEMPLATE_KWARGS: {{ .Values.llamacpp.tools.chatTemplateKwargs | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.tools "jinja" }}
+  LLAMA_ARG_JINJA: {{ .Values.llamacpp.tools.jinja | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.tools "skipChatParsing" }}
+  LLAMA_ARG_SKIP_CHAT_PARSING: {{ .Values.llamacpp.tools.skipChatParsing | quote }}
+  {{- end }}
+  {{- if hasKey .Values.llamacpp.tools "prefillAssistant" }}
+  LLAMA_ARG_PREFILL_ASSISTANT: {{ .Values.llamacpp.tools.prefillAssistant | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.tools.tools }}
+  LLAMA_ARG_TOOLS: {{ .Values.llamacpp.tools.tools | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.tools.toolsRuntime }}
+  LLAMA_ARG_TOOLS_RUNTIME: {{ .Values.llamacpp.tools.toolsRuntime | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.tools.agent }}
+  LLAMA_ARG_AGENT: {{ .Values.llamacpp.tools.agent | quote }}
+  {{- end }}
+  {{- end }}
+
+  # -- Video --
+  {{- if .Values.llamacpp.video }}
+  {{- if .Values.llamacpp.video.ffmpegDir }}
+  LLAMA_ARG_VIDEO_FFMPEG_DIR: {{ .Values.llamacpp.video.ffmpegDir | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.video.fps }}
+  LLAMA_ARG_VIDEO_FPS: {{ .Values.llamacpp.video.fps | quote }}
+  {{- end }}
+  {{- if .Values.llamacpp.video.timestampInterval }}
+  LLAMA_ARG_VIDEO_TIMESTAMP_INTERVAL: {{ .Values.llamacpp.video.timestampInterval | quote }}
   {{- end }}
   {{- end }}
 

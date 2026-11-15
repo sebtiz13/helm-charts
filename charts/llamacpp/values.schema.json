@@ -191,27 +191,6 @@
           ],
           "description": "Number of threads used to process HTTP requests (maps to LLAMA_ARG_THREADS_HTTP, default: -1)"
         },
-        "reusePort": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Enable SO_REUSEPORT so multiple instances can bind the same port (maps to LLAMA_ARG_REUSE_PORT, 1 to enable)"
-        },
-        "noHost": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Bypass host buffer, allowing extra buffers to be used (maps to LLAMA_ARG_NO_HOST, 1 to enable)"
-        },
-        "ssePingInterval": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Interval between SSE keep-alive pings in seconds (maps to LLAMA_ARG_SSE_PING_INTERVAL, default: 15)"
-        },
         "nPredict": {
           "type": [
             "string",
@@ -219,26 +198,12 @@
           ],
           "description": "Number of tokens to predict (maps to LLAMA_ARG_N_PREDICT, default: -1, -1 = infinity)"
         },
-        "reranking": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Enable the /rerank endpoint for cross-encoder reranking (maps to LLAMA_ARG_RERANKING, 1 to enable)"
-        },
         "perf": {
           "type": [
             "string",
             "integer"
           ],
           "description": "Enable internal libllama performance timings (maps to LLAMA_ARG_PERF, 1 to enable)"
-        },
-        "offline": {
-          "type": [
-            "string",
-            "integer"
-          ],
-          "description": "Disable any network access such as HF downloads or model router (maps to LLAMA_ARG_OFFLINE, 1 to enable)"
         },
         "threads": {
           "type": [
@@ -1019,6 +984,34 @@
                 "integer"
               ],
               "description": "Whether to allow CORS credentials (maps to LLAMA_ARG_CORS_CREDENTIALS, 1 to enable, 0 = disabled)"
+            },
+            "reusePort": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Enable SO_REUSEPORT so multiple instances can bind the same port (maps to LLAMA_ARG_REUSE_PORT, 1 to enable)"
+            },
+            "noHost": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Bypass host buffer, allowing extra buffers to be used (maps to LLAMA_ARG_NO_HOST, 1 to enable)"
+            },
+            "ssePingInterval": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Interval between SSE keep-alive pings in seconds (maps to LLAMA_ARG_SSE_PING_INTERVAL, default: 15)"
+            },
+            "offline": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Disable any network access such as HF downloads or model router (maps to LLAMA_ARG_OFFLINE, 1 to enable)"
             }
           }
         },
@@ -1064,6 +1057,115 @@
                 "integer"
               ],
               "description": "Add timestamps to log lines (maps to LLAMA_ARG_LOG_TIMESTAMPS, 1 to enable, 0 = disabled)"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "description": "Endpoints configuration",
+          "properties": {
+            "metrics": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Enable or disable the /metrics (Prometheus) endpoint (maps to LLAMA_ARG_ENDPOINT_METRICS, 1 to enable, 0 = disabled)"
+            },
+            "slots": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Enable or disable the /slots endpoint (maps to LLAMA_ARG_ENDPOINT_SLOTS, 1 to enable, 0 = disabled)"
+            },
+            "props": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Enable or disable the /props endpoint (maps to LLAMA_ARG_ENDPOINT_PROPS, 1 to enable, 0 = disabled)"
+            },
+            "reranking": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Enable the /rerank endpoint for cross-encoder reranking (maps to LLAMA_ARG_RERANKING, 1 to enable)"
+            }
+          }
+        },
+        "tools": {
+          "type": "object",
+          "description": "Chat template & tool use configuration",
+          "properties": {
+            "chatTemplate": {
+              "type": "string",
+              "description": "Custom Jinja2 chat template string (maps to LLAMA_ARG_CHAT_TEMPLATE)"
+            },
+            "chatTemplateFile": {
+              "type": "string",
+              "description": "Path to a file containing a custom Jinja2 chat template (maps to LLAMA_ARG_CHAT_TEMPLATE_FILE)"
+            },
+            "chatTemplateKwargs": {
+              "type": "string",
+              "description": "Extra key=value pairs passed to the Jinja2 template renderer (maps to LLAMA_ARG_CHAT_TEMPLATE_KWARGS)"
+            },
+            "jinja": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to use the Jinja2 template engine for chat (maps to LLAMA_ARG_JINJA, 1 to enable, 0 = disabled)"
+            },
+            "skipChatParsing": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Force pure content parser, disables reasoning/tool extraction (maps to LLAMA_ARG_SKIP_CHAT_PARSING, 1 to enable, 0 = disabled)"
+            },
+            "prefillAssistant": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Whether to prefill assistant response from last assistant message (maps to LLAMA_ARG_PREFILL_ASSISTANT, 1 to enable, 0 = disabled)"
+            },
+            "tools": {
+              "type": "string",
+              "description": "Comma-separated list of tool names or JSON tool definitions to expose (maps to LLAMA_ARG_TOOLS)"
+            },
+            "toolsRuntime": {
+              "type": "string",
+              "description": "Tool calling runtime (e.g. native, python; maps to LLAMA_ARG_TOOLS_RUNTIME)"
+            },
+            "agent": {
+              "type": "string",
+              "description": "Agentic loop configuration (tool use automation; maps to LLAMA_ARG_AGENT)"
+            }
+          }
+        },
+        "video": {
+          "type": "object",
+          "description": "Video configuration",
+          "properties": {
+            "ffmpegDir": {
+              "type": "string",
+              "description": "Path to ffmpeg binaries for video frame extraction (maps to LLAMA_ARG_VIDEO_FFMPEG_DIR)"
+            },
+            "fps": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Frames per second to extract from video inputs (maps to LLAMA_ARG_VIDEO_FPS)"
+            },
+            "timestampInterval": {
+              "type": [
+                "string",
+                "integer"
+              ],
+              "description": "Interval in seconds between frame timestamps in prompts (maps to LLAMA_ARG_VIDEO_TIMESTAMP_INTERVAL)"
             }
           }
         },

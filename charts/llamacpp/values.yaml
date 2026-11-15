@@ -70,20 +70,10 @@ llamacpp:
   # timeout: "600"
   # Number of threads used to process HTTP requests (default: -1)
   # threadsHttp: "-1"
-  # Enable SO_REUSEPORT so multiple instances can bind the same port (1 = enable / 0 = disabled)
-  # reusePort: "0"
-  # Bypass host buffer, allowing extra buffers to be used (1 = enable / 0 = disabled)
-  # noHost: "0"
-  # Interval between SSE keep-alive pings in seconds (default: 15)
-  # ssePingInterval: "15"
   # Number of tokens to predict (default: -1, -1 = infinity)
   # nPredict: "-1"
-  # Enable the /rerank endpoint for cross-encoder reranking (1 = enable / 0 = disabled)
-  # reranking: "0"
   # Enable internal libllama performance timings (1 = enable / 0 = disabled)
   # perf: "0"
-  # Disable any network access: HF downloads, model router, etc. (1 = enable / 0 = disabled)
-  # offline: "0"
 
   # -- Threading & GPU --
   # Number of CPU threads to use for generation
@@ -363,6 +353,14 @@ llamacpp:
   #   corsMethods: ""
   #   # Whether to allow CORS credentials (1 = enable / 0 = disabled)
   #   corsCredentials: "0"
+  #   # Enable SO_REUSEPORT so multiple instances can bind the same port (1 = enable / 0 = disabled)
+  #   reusePort: "0"
+  #   # Bypass host buffer, allowing extra buffers to be used (1 = enable / 0 = disabled)
+  #   noHost: "0"
+  #   # Interval between SSE keep-alive pings in seconds (default: 15)
+  #   ssePingInterval: "15"
+  #   # Disable any network access: HF downloads, model router, etc. (1 = enable / 0 = disabled)
+  #   offline: "0"
 
   # -- Logging --
   # logging:
@@ -378,6 +376,47 @@ llamacpp:
   #   prefix: "0"
   #   # Add timestamps to log lines (1 = enable / 0 = disabled, default: 0)
   #   timestamps: "0"
+
+  # -- Endpoints --
+  # endpoints:
+  #   # Enable or disable the /metrics (Prometheus) endpoint (1 = enable / 0 = disabled, default: 0)
+  #   metrics: "0"
+  #   # Enable or disable the /slots endpoint (1 = enable / 0 = disabled, default: 1)
+  #   slots: "1"
+  #   # Enable or disable the /props endpoint (1 = enable / 0 = disabled, default: 1)
+  #   props: "1"
+  #   # Enable the /rerank endpoint for cross-encoder reranking (1 = enable / 0 = disabled)
+  #   # reranking: "0"
+
+  # -- Chat template & tool use --
+  # tools:
+  #   # Custom Jinja2 chat template string (default: taken from model metadata)
+  #   chatTemplate: ""
+  #   # Path to a file containing a custom Jinja2 chat template
+  #   chatTemplateFile: ""
+  #   # Extra key=value pairs passed to the Jinja2 template renderer (comma-separated or KEY=VAL)
+  #   chatTemplateKwargs: ""
+  #   # Whether to use the Jinja2 template engine for chat (1 = enable / 0 = disabled, default: 1)
+  #   jinja: "1"
+  #   # Force pure content parser, disables reasoning/tool extraction (1 = enable / 0 = disabled, default: 0)
+  #   skipChatParsing: "0"
+  #   # Whether to prefill assistant response from last assistant message (1 = enable / 0 = disabled, default: 1)
+  #   prefillAssistant: "1"
+  #   # Comma-separated list of tool names or JSON tool definitions to expose
+  #   tools: ""
+  #   # Tool calling runtime (e.g. native, python; default: native)
+  #   toolsRuntime: ""
+  #   # Agentic loop configuration (tool use automation)
+  #   agent: ""
+
+  # -- Video --
+  # video:
+  #   # Path to ffmpeg binaries for video frame extraction
+  #   ffmpegDir: ""
+  #   # Frames per second to extract from video inputs (default: 1)
+  #   fps: "1"
+  #   # Interval in seconds between frame timestamps in prompts
+  #   timestampInterval: ""
 
   # Additional arbitrary env vars to inject (key: value map)
   extraEnv: {}

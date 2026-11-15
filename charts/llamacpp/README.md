@@ -66,13 +66,8 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.alias` | Model name alias exposed in the API (comma-separated) | `nil` |
 | `llamacpp.timeout` | Server read/write timeout in seconds | `nil` |
 | `llamacpp.threadsHttp` | Number of threads used to process HTTP requests | `nil` |
-| `llamacpp.reusePort` | Enable SO_REUSEPORT so multiple instances can bind the same port (`1` to enable) | `nil` |
-| `llamacpp.noHost` | Bypass host buffer, allowing extra buffers to be used (`1` to enable) | `nil` |
-| `llamacpp.ssePingInterval` | Interval between SSE keep-alive pings in seconds | `nil` |
 | `llamacpp.nPredict` | Number of tokens to predict (`-1` = infinity) | `nil` |
-| `llamacpp.reranking` | Enable the `/rerank` endpoint for cross-encoder reranking (`1` to enable) | `nil` |
 | `llamacpp.perf` | Enable internal libllama performance timings (`1` to enable) | `nil` |
-| `llamacpp.offline` | Disable any network access: HF downloads, model router, etc. (`1` to enable) | `nil` |
 | `llamacpp.threads` | Number of CPU threads to use for generation | `nil` |
 | `llamacpp.mainGpu` | Index of the GPU to use as main GPU | `nil` |
 | `llamacpp.threadsBatch` | Number of threads for batch / prompt processing (default: same as threads) | `nil` |
@@ -258,6 +253,10 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.network.corsHeaders` | Allowed CORS headers | `nil` |
 | `llamacpp.network.corsMethods` | Allowed CORS methods | `nil` |
 | `llamacpp.network.corsCredentials` | Whether to allow CORS credentials (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.network.reusePort` | Enable SO_REUSEPORT so multiple instances can bind the same port (`1` to enable) | `nil` |
+| `llamacpp.network.noHost` | Bypass host buffer, allowing extra buffers to be used (`1` to enable) | `nil` |
+| `llamacpp.network.ssePingInterval` | Interval between SSE keep-alive pings in seconds | `nil` |
+| `llamacpp.network.offline` | Disable any network access: HF downloads, model router, etc. (`1` to enable) | `nil` |
 
 #### Logging
 
@@ -269,6 +268,37 @@ curl http://127.0.0.1:8080/health
 | `llamacpp.logging.colors` | Use ANSI colors in log output (`1` = enable, `0` = disabled) | `nil` |
 | `llamacpp.logging.prefix` | Add a module/function prefix to log lines (`1` = enable, `0` = disabled) | `nil` |
 | `llamacpp.logging.timestamps` | Add timestamps to log lines (`1` = enable, `0` = disabled) | `nil` |
+
+#### Endpoints
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.endpoints.metrics` | Enable or disable the `/metrics` (Prometheus) endpoint (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.endpoints.slots` | Enable or disable the `/slots` endpoint (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.endpoints.props` | Enable or disable the `/props` endpoint (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.endpoints.reranking` | Enable the `/rerank` endpoint for cross-encoder reranking (`1` to enable) | `nil` |
+
+#### Chat template & tool use
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.tools.chatTemplate` | Custom Jinja2 chat template string (default: taken from model metadata) | `nil` |
+| `llamacpp.tools.chatTemplateFile` | Path to a file containing a custom Jinja2 chat template | `nil` |
+| `llamacpp.tools.chatTemplateKwargs` | Extra `key=value` pairs passed to the Jinja2 template renderer | `nil` |
+| `llamacpp.tools.jinja` | Whether to use the Jinja2 template engine for chat (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.tools.skipChatParsing` | Force pure content parser, disables reasoning/tool extraction (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.tools.prefillAssistant` | Whether to prefill assistant response from last assistant message (`1` = enable, `0` = disabled) | `nil` |
+| `llamacpp.tools.tools` | Comma-separated list of tool names or JSON tool definitions to expose | `nil` |
+| `llamacpp.tools.toolsRuntime` | Tool calling runtime (e.g. `native`, `python`) | `nil` |
+| `llamacpp.tools.agent` | Agentic loop configuration (tool use automation) | `nil` |
+
+#### Video
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `llamacpp.video.ffmpegDir` | Path to ffmpeg binaries for video frame extraction | `nil` |
+| `llamacpp.video.fps` | Frames per second to extract from video inputs (default: 1) | `nil` |
+| `llamacpp.video.timestampInterval` | Interval in seconds between frame timestamps in prompts | `nil` |
 
 ### Common configuration
 
