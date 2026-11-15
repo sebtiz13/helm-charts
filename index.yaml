@@ -5,6 +5,32 @@ entries:
       artifacthub.io/category: ai-machine-learning
     apiVersion: v2
     appVersion: b12191
+    created: "2026-11-15T03:52:46.561798814Z"
+    description: A Helm chart for llama.cpp server (llama-server) deployment
+    digest: 0a7c155d57840e31400ae10d3c866ee207bcf93449b5fbba1eced0a79c465520
+    home: https://github.com/ggml-org/llama.cpp
+    icon: https://raw.githubusercontent.com/ggml-org/llama.cpp/refs/heads/master/media/llama1-icon-transparent.png
+    keywords:
+    - llamacpp
+    - llama
+    - llm
+    - ai
+    - inference
+    maintainers:
+    - name: sebtiz13
+      url: https://github.com/sebtiz13
+    name: llamacpp
+    sources:
+    - https://github.com/sebtiz13/helm-charts/tree/main/charts/llamacpp
+    - https://github.com/ggml-org/llama.cpp
+    type: application
+    urls:
+    - https://sebtiz13.github.io/helm-charts/charts/llamacpp-0.6.0.tgz
+    version: 0.6.0
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+    apiVersion: v2
+    appVersion: b12191
     created: "2026-11-15T03:41:13.827845719Z"
     description: A Helm chart for llama.cpp server (llama-server) deployment
     digest: 89344522f8cb99782e6f3288ea3595c38b8971c5e410c25fa32e5c2af40bed56
@@ -502,4 +528,4 @@ entries:
     urls:
     - https://sebtiz13.github.io/helm-charts/charts/wallabag-0.2.0.tgz
     version: 0.2.0
-generated: "2026-11-15T03:41:13.826537905Z"
+generated: "2026-11-15T03:52:46.560776781Z"
