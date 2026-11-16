@@ -2,13 +2,13 @@ apiVersion: v2
 name: llamacpp
 description: A Helm chart for llama.cpp server (llama-server) deployment
 type: application
-version: 0.10.1
-appVersion: "b12191"
+version: 1.0.0
+appVersion: "v1.0.0-b12359-b1b770d"
 
 annotations:
   artifacthub.io/category: ai-machine-learning
 
-icon: https://raw.githubusercontent.com/ggml-org/llama.cpp/refs/heads/master/media/llama1-icon-transparent.png
+icon: https://raw.githubusercontent.com/ggml-org/llama-brand/refs/heads/master/logo/png/icon/icon-dark-bg.png
 home: https://github.com/ggml-org/llama.cpp
 sources:
   - https://github.com/sebtiz13/helm-charts/tree/main/charts/llamacpp
